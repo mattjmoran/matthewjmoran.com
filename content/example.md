@@ -1,4 +1,7 @@
-# Velit Sit
+---
+title: Example
+description: 'Example description'
+---
 
 Laborum velit deserunt labore fugiat aliquip nulla velit consequat.
 
