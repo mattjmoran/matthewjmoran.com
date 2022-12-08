@@ -11,12 +11,12 @@ const contentExtension = '.md'
 
 // The content page component that will be rendered
 const Content = (props: {
-  frontMatter: { [key: string]: string }
+  frontmatter: { [key: string]: string }
   slug: string
   content: string
 }) => (
   <div>
-    <h1>{props.frontMatter.title}</h1>
+    <h1>{props.frontmatter.title}</h1>
     <div dangerouslySetInnerHTML={{ __html: marked(props.content) }} />
   </div>
 )
@@ -53,12 +53,12 @@ export async function getStaticProps({ params: { slug } }: never) {
     'utf-8'
   )
   // Parse the markdown file into a usable object using gray-matter
-  const { data: frontMatter, content } = matter(markdownWithMeta)
+  const { data: frontmatter, content } = matter(markdownWithMeta)
   // Return the parsed data as props
   return {
     props: {
-      frontMatter,
       slug,
+      frontmatter,
       content,
     },
   }

@@ -1,6 +1,7 @@
 ---
-title: Example
-description: 'Example description'
+title: Example 1
+description: 'Example 1 description'
+date: '2022-12-08'
 ---
 
 Laborum velit deserunt labore fugiat aliquip nulla velit consequat.
