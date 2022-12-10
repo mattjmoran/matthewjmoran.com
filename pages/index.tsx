@@ -3,11 +3,17 @@ import Link from 'next/link'
 export default function Home() {
   return (
     <div>
-      <Link href="/example1">
-        <p>Go to &quot;Example 1&quot;</p>
+      <Link href="/projects/1">
+        <p>Go to &quot;Example Project 1&quot;</p>
       </Link>
-      <Link href="/example2">
-        <p>Go to &quot;Example 2&quot;</p>
+      <Link href="/projects/2">
+        <p>Go to &quot;Example Project 2&quot;</p>
+      </Link>
+      <Link href="/guides/1">
+        <p>Go to &quot;Example Guide 1&quot;</p>
+      </Link>
+      <Link href="/guides/2">
+        <p>Go to &quot;Example Guide 2&quot;</p>
       </Link>
     </div>
   )
