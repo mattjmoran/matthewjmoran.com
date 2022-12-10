@@ -43,6 +43,111 @@ export default Content
 // Static site generation (SSG): get the path for each content page
 // This function gets called at build time
 export async function getStaticPaths() {
+  // Begin validation:
+  // 1. Preform some validation on the content directory
+  //  1a. Check that the content directory is not empty
+  if (contentDirectory.trim() === '') {
+    throw new Error(
+      `The '${contentDirectory}' directory is empty. Please add a directory name.`
+    )
+  }
+  //  1b. Check that the content directory exists
+  if (!fs.existsSync(contentDirectory)) {
+    throw new Error(
+      `The '${contentDirectory}' directory does not exist. Please create the directory.`
+    )
+  }
+  //  1c. Check that the content directory is a directory
+  if (!fs.statSync(contentDirectory).isDirectory()) {
+    throw new Error(
+      `The '${contentDirectory}' path is not a directory. Please make it a directory.`
+    )
+  }
+  //  1d. Check that the content directory is not empty
+  if (fs.readdirSync(contentDirectory).length === 0) {
+    throw new Error(
+      `The '${contentDirectory}' directory is empty. Please add some content pages.`
+    )
+  }
+  //  1e. Check that the content directory doesn't have any files and only directories
+  if (
+    fs
+      .readdirSync(contentDirectory)
+      .filter((filename) =>
+        fs.statSync(path.join(contentDirectory, filename)).isFile()
+      ).length !== 0
+  ) {
+    throw new Error(
+      `The '${contentDirectory}' directory contains files. Please remove any files and only have directories.`
+    )
+  }
+  // 2. Preform some validation on the content extension
+  //  2a. Check that the content extension is not empty
+  if (contentExtension.trim() === '') {
+    throw new Error(
+      `The '${contentExtension}' content extension is empty. Please add a content extension.`
+    )
+  }
+  //  2b. Check that the content extension starts with a '.' followed by at least one character
+  if (!contentExtension.startsWith('.') || contentExtension.length <= 1) {
+    throw new Error(
+      `The '${contentExtension}' content extension is invalid. Please make sure it starts with a '.' followed by at least one character.`
+    )
+  }
+  // 3. Preform some validation on each subdirectory in the content directory
+  //  3a. Check that each subdirectory in the content directory is not an empty directory
+  fs.readdirSync(contentDirectory)
+    .filter((filename) =>
+      fs.statSync(path.join(contentDirectory, filename)).isDirectory()
+    )
+    .forEach((directory) => {
+      if (fs.readdirSync(path.join(contentDirectory, directory)).length === 0) {
+        throw new Error(
+          `The '${directory}' directory in '${contentDirectory}' is empty. Please add some content pages.`
+        )
+      }
+    })
+  //  3b. Check that each subdirectory in the content directory doesn't have any files without the content extension
+  fs.readdirSync(contentDirectory)
+    .filter((filename) =>
+      fs.statSync(path.join(contentDirectory, filename)).isDirectory()
+    )
+    .forEach((directory) => {
+      if (
+        fs
+          .readdirSync(path.join(contentDirectory, directory))
+          .filter((filename) =>
+            fs
+              .statSync(path.join(contentDirectory, directory, filename))
+              .isFile()
+          )
+          .filter((filename) => !filename.endsWith(contentExtension)).length !==
+        0
+      ) {
+        throw new Error(
+          `The '${directory}' directory in '${contentDirectory}' contains files that are not '${contentExtension}' files. Please remove any files that are not '${contentExtension}' files.`
+        )
+      }
+    })
+  // 3c. Assert that there are no duplicate slugs in the content directory across all subdirectories
+  const slugs = fs
+    .readdirSync(contentDirectory)
+    .filter((filename) =>
+      fs.statSync(path.join(contentDirectory, filename)).isDirectory()
+    )
+    .map((directory) =>
+      fs
+        .readdirSync(path.join(contentDirectory, directory))
+        .filter((filename) => filename.endsWith(contentExtension))
+        .map((filename) => filename.replace(contentExtension, ''))
+    )
+    .flat()
+  if (new Set(slugs).size !== slugs.length) {
+    throw new Error(
+      `There are duplicate slugs in the '${contentDirectory}' directory. Please remove the duplicate slugs.`
+    )
+  }
+  // All validation passed, continue...
   // Get each directory in the 'content' directory
   const directories = fs
     // Read the 'content' directory from the filesystem
@@ -176,7 +281,7 @@ export async function getStaticProps({ params: { directory, slug } }: never) {
       )
     }
   })
-  // All validation passed, so we can continue
+  // All validation passed, continue...
   // Return the parsed data as props
   return {
     props: {
