@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+defaults:
+  run:
+    working-directory: ./web
+
 jobs:
   build_site:
     runs-on: ubuntu-latest
