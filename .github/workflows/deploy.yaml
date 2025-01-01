@@ -3,7 +3,6 @@ name: Deploy to Cloudflare Pages
 on:
   push:
     branches:
-      - 'release/v*.*.*'
       - 'trunk'
     paths:
       - 'web/**'
@@ -11,7 +10,13 @@ on:
 
 jobs:
   build:
+    name: 'Build Ubuntu'
+
+    needs: prepare
     runs-on: ubuntu-latest
+
+    outputs:
+      head_tag: ${{ steps.var.outputs.head_tag }}
 
     defaults:
       run:
@@ -20,6 +25,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Retrieve Tags
+        run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+
+      - name: Set Output Variable
+        id: var
+        run: |
+          tag=""
+          if [[ "${{ github.ref }}" == refs/heads/* ]]; then
+            tag="$(git tag --points-at HEAD)"
+          fi
+          echo "head_tag=${tag}" >> $GITHUB_OUTPUT
 
       - name: Install pnpm
         uses: pnpm/action-setup@v3
@@ -48,9 +65,9 @@ jobs:
           path: 'web/build/'
 
   preview:
-    needs: build
-    if: ${{ startsWith(github.ref, 'refs/heads/trunk') }}
+    name: 'Deploy / Preview'
 
+    needs: build
     runs-on: ubuntu-latest
 
     environment:
@@ -74,9 +91,10 @@ jobs:
             --branch=preview
 
   production:
-    needs: build
-    if: ${{ startsWith(github.ref, 'refs/heads/release/v') }}
+    name: 'Deploy / Production'
 
+    needs: build
+    if: ${{ startsWith(needs.build.outputs.head_tag, 'v') }}
     runs-on: ubuntu-latest
 
     environment:
