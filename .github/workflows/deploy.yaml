@@ -1,16 +1,21 @@
-name: Deploy to GitHub Pages
+name: Deploy to Cloudflare Pages
 
 on:
   push:
     branches:
       - main
+    paths:
+      - 'web/**'
+      - '.github/workflows/deploy.yml'
 
 jobs:
-  build_site:
+  build:
     runs-on: ubuntu-latest
+
     defaults:
       run:
         working-directory: ./web
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,11 +28,11 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
           cache-dependency-path: 'web/pnpm-lock.yaml'
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: pnpm install
 
       - name: Build
@@ -37,23 +42,26 @@ jobs:
           pnpm run build
 
       - name: Upload Artifacts
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
+          name: build-artifacts
           path: 'web/build/'
 
   deploy:
-    needs: build_site
+    needs: build
+
     runs-on: ubuntu-latest
 
-    permissions:
-      pages: write
-      id-token: write
-
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
     steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+          path: 'build/' 
+
       - name: Deploy
-        id: deployment
-        uses: actions/deploy-pages@v4
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUND_ID }}
+          command: pages deploy build --project-name=matthewjmoran-com
