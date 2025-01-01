@@ -2,9 +2,9 @@ name: Deploy to Cloudflare Pages
 
 on:
   push:
-    tags:
+    branches:
       - 'release/v*.*.*'
-      - trunk
+      - 'trunk'
     paths:
       - 'web/**'
       - '.github/workflows/**'
