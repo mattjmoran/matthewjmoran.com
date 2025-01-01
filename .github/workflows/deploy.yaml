@@ -52,6 +52,10 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    environment:
+      name: cloudflare-pages
+      url: https://matthewjmoran.com
+
     steps:
       - name: Download Artifacts
         uses: actions/download-artifact@v4
@@ -64,4 +68,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUND_ID }}
-          command: pages deploy build --project-name=matthewjmoran-com
+          command: pages deploy build --project-name=${{ vars.CLOUDFLARE_PROJECT }}
