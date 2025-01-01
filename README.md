@@ -1,6 +1,6 @@
 # matthewjmoran.com
 
-A personal website, [matthewjmoran.com](https://matthewjmoran.com), built using SvelteKit with Static Site Generation (SSG).
+A personal website, [matthewjmoran.com](https://matthewjmoran.com/), built using SvelteKit with Static Site Generation (SSG).
 
 ## Usage
 
@@ -30,3 +30,20 @@ docker run -it --rm --name mjm-preview -p 4173:4173 mjm-preview
 ### Deploy
 
 Deployment is done via Github Actions. See [deploy.yaml](.github/workflows/deploy.yaml) for more details.
+
+Commits that modify `web/` in the `trunk` branch are deployed to the [preview environment](https://preview.matthewjmoran.pages.dev/).
+
+Commits containing a [release tag](https://trunkbaseddevelopment.com/branch-for-release/#tag-instead-of-branch) that follows the `vMAJOR.MINOR.PATCH` pattern are deployed to the [production environment](https://matthewjmoran.com/).
+
+## Releases
+
+All releases are assigned version number that follow the rules and requirements outlined in the [Semantic Versioning](https://semver.org/) system.
+
+The release procedure is as followed:
+
+1. `git checkout trunk`
+2. `git pull --rebase origin trunk`
+3. Increment the version field in [`web/package.json`](web/package.json)
+4. `git commit -am "Release vMAJOR.MINOR.PATCH"`
+5. `git tag -a vMAJOR.MINOR.PATCH -m "Release vMAJOR.MINOR.PATCH"`
+6. `git push origin trunk --tags`
