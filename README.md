@@ -31,19 +31,21 @@ docker run -it --rm --name mjm-preview -p 4173:4173 mjm-preview
 
 Deployment is done via Github Actions. See [deploy.yaml](.github/workflows/deploy.yaml) for more details.
 
-Commits that modify `web/` in the `trunk` branch are deployed to the [preview environment](https://preview.matthewjmoran.pages.dev/).
+Commits to the `trunk` branch that modify `web/` or `.github/workflows` are deployed to the [preview environment](https://preview.matthewjmoran.pages.dev/).
 
-Commits containing a [release tag](https://trunkbaseddevelopment.com/branch-for-release/#tag-instead-of-branch) that follows the `vMAJOR.MINOR.PATCH` pattern are deployed to the [production environment](https://matthewjmoran.com/).
+Commits to a `release/vMAJOR.MINOR.PATCH` branch that modify `web/` or `.github/workflows` are deployed to the [production environment](https://matthewjmoran.com/).
 
 ## Releases
 
-All releases are assigned version number that follow the rules and requirements outlined in the [Semantic Versioning](https://semver.org/) system.
+All [release branches](https://trunkbaseddevelopment.com/branch-for-release/) are assigned a version number that follow the rules and requirements outlined in the [Semantic Versioning](https://semver.org/) system.
 
-The release procedure is as followed:
+The release procedure is as follows:
 
 1. `git checkout trunk`
-2. `git pull --rebase origin trunk`
-3. Increment the version field in [`web/package.json`](web/package.json)
-4. `git commit -am "Release vMAJOR.MINOR.PATCH"`
-5. `git tag -a vMAJOR.MINOR.PATCH -m "Release vMAJOR.MINOR.PATCH"`
-6. `git push origin trunk --tags`
+2. `git pull -r origin trunk`
+3. `git checkout -b release/vMAJOR.MINOR.PATCH`
+4. Increment the version field in [`web/package.json`](web/package.json)
+5. `git commit -am "Release vMAJOR.MINOR.PATCH"`
+6. `git push -u origin release/vMAJOR.MINOR.PATCH`
+7. `git checkout trunk`
+8. `git branch -d release/vMAJOR.MINOR.PATCH`

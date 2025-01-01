@@ -2,11 +2,12 @@ name: Deploy to Cloudflare Pages
 
 on:
   push:
-    branches:
+    tags:
+      - 'release/v*.*.*'
       - trunk
     paths:
       - 'web/**'
-      - '.github/workflows/deploy.yaml'
+      - '.github/workflows/**'
 
 jobs:
   build:
@@ -46,50 +47,54 @@ jobs:
           name: build-artifacts
           path: 'web/build/'
 
-  deploy:
+  preview:
     needs: build
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Download Build Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-artifacts
-          path: 'build/' 
-
-      - name: Deploy to Preview
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUND_ID }}
-          command: >
-            pages deploy build --project-name=${{ vars.CLOUDFLARE_PROJECT }}
-            --branch=preview
-
-  release:
-    needs: deploy
-    if: >
-      startsWith(github.ref, 'refs/tags/v')
+    if: ${{ startsWith(github.ref, 'refs/heads/trunk') }}
 
     runs-on: ubuntu-latest
 
     environment:
       name: cloudflare-pages
-      url: https://matthewjmoran.com
+      url: https://preview.matthewjmoran.pages.dev/
 
     steps:
       - name: Download Build Artifacts
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
-          path: 'build/' 
+          path: 'build/'
+
+      - name: Deploy to Preview
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: >
+            pages deploy build --project-name=${{ vars.CLOUDFLARE_PROJECT }}
+            --branch=preview
+
+  production:
+    needs: build
+    if: ${{ startsWith(github.ref, 'refs/heads/release/v') }}
+
+    runs-on: ubuntu-latest
+
+    environment:
+      name: cloudflare-pages
+      url: https://matthewjmoran.com/
+
+    steps:
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+          path: 'build/'
 
       - name: Deploy to Production
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUND_ID }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: >
             pages deploy build --project-name=${{ vars.CLOUDFLARE_PROJECT }}
             --branch=production
