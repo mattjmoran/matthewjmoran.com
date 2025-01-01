@@ -4,7 +4,7 @@
 
 * [Svelte & SvelteKit](https://svelte.dev/docs)
 * [Docker](https://docs.docker.com/)
-* [GitHub Pages](https://docs.github.com/en/pages)
+* [Cloudflare Pages](https://developers.cloudflare.com/pages/)
 * [GitHub Actions](https://docs.github.com/en/actions)
 
 ## Articles, Tutorials, and Videos
