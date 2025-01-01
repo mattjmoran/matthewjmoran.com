@@ -5,6 +5,7 @@
 * [Svelte & SvelteKit](https://svelte.dev/docs)
 * [Docker](https://docs.docker.com/)
 * [Cloudflare Pages](https://developers.cloudflare.com/pages/)
+  * [Cloudflare Wrangler](https://developers.cloudflare.com/workers/wrangler/)
 * [GitHub Actions](https://docs.github.com/en/actions)
 
 ## Articles, Tutorials, and Videos
