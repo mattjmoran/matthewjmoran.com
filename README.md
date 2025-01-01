@@ -8,7 +8,7 @@ With Docker, this project creates a consistent local development environment tha
 
 ### Development
 
-Start the Docker development server container with hot reloading. Read more on `docker compose watch` for local development on [docker's blog](https://www.docker.com/blog/announcing-docker-compose-watch-ga-release/).
+Start the Docker development server container with hot reloading. Read more on `docker compose watch` for local development on [Docker's blog](https://www.docker.com/blog/announcing-docker-compose-watch-ga-release/).
 
 ```bash
 docker compose watch

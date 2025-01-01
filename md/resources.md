@@ -16,3 +16,7 @@
 
 * [The intro to Docker I wish I had when I started](https://www.youtube.com/watch?v=Ud7Npgi6x8E)
 * [Master Docker Compose the Way I Wish I Did – Docker for Newbs EP 2](https://www.youtube.com/watch?v=HGKfE-cn9y4&t=0s)
+
+### Git & GitHub
+
+* [Trunk Based Development](https://trunkbaseddevelopment.com/)
