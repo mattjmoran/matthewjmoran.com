@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - 'web/**'
-      - '.github/workflows/deploy.yml'
+      - '.github/workflows/deploy.yaml'
 
 jobs:
   build:
@@ -42,7 +42,7 @@ jobs:
           pnpm run build
 
       - name: Upload Artifacts
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
           path: 'web/build/'
