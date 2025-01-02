@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      head_tag: ${{ steps.var.outputs.head_tag }}
+      tag: ${{ steps.tag.outputs.tag }}
 
     defaults:
       run:
@@ -24,18 +24,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Retrieve Tags
-        run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
-
-      - name: Set Output Variable
-        id: var
+      - name: Retrieve Tag
+        id: tag
         run: |
-          tag=""
-          if [[ "${{ github.ref }}" == refs/heads/* ]]; then
-            tag="$(git tag --points-at HEAD)"
-          fi
-          echo "head_tag=${tag}" >> $GITHUB_OUTPUT
+          tag=$(git tag --points-at ${{ github.sha }})
+          echo "tag=${tag}" >> $GITHUB_OUTPUT
 
       - name: Install pnpm
         uses: pnpm/action-setup@v3
@@ -93,7 +89,7 @@ jobs:
     name: 'Deploy / Production'
 
     needs: build
-    if: ${{ startsWith(needs.build.outputs.head_tag, 'v') }}
+    if: ${{ startsWith(needs.build.outputs.tag, 'v') }}
     runs-on: ubuntu-latest
 
     environment:
