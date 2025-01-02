@@ -25,12 +25,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
+
+      - name: Fetch Tags
+        run: git fetch --tags
 
       - name: Retrieve Tag
         id: tag
         run: |
           tag=$(git tag --points-at ${{ github.sha }})
+          if [ -z "$tag" ]; then
+            echo "No tag for this commit" # Output to console if no tag is found
+          else
+            echo "Tag for this commit: ${tag}" # Output to console if tag is found
+          fi
           echo "tag=${tag}" >> $GITHUB_OUTPUT
 
       - name: Install pnpm
