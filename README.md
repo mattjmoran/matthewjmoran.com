@@ -2,7 +2,7 @@
 
 A personal website, [matthewjmoran.com](https://matthewjmoran.com/), built using SvelteKit with Static Site Generation (SSG).
 
-## Usage
+## Getting Started
 
 With Docker, this project creates a consistent local development environment that runs the same everywhere, eliminating the __“But it runs on my machine”__ problem.
 
@@ -47,3 +47,21 @@ The release procedure is as follows:
 4. `git commit -am "Release vMAJOR.MINOR.PATCH"`
 5. `git tag -a vMAJOR.MINOR.PATCH -m "Release vMAJOR.MINOR.PATCH"`
 6. `git push origin trunk --tags`
+
+## License
+
+### Code
+
+The code in this repository is licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0). You can freely use, modify, and distribute the code under the terms of this license. See the [`LICENSE_CODE`](LICENSE_CODE) file for full details.  
+
+### Content
+
+All non-code content, including artwork, images, writing, media files, and other creative materials, is © Matthew J. Moran, 2025. It is licensed under the [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License (CC BY-NC-ND 4.0)](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en). See the [`LICENSE_CONTENT`](LICENSE_CONTENT) file for full details.
+
+#### Key Terms for Content
+
+- __Attribution__ — You must give [appropriate credit](https://creativecommons.org/licenses/by-nc-nd/4.0/#ref-appropriate-credit), provide a link to the license, and [indicate if changes were made](https://creativecommons.org/licenses/by-nc-nd/4.0/#ref-indicate-changes). You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.  
+- __NonCommercial__ — You may not use the material for [commercial purposes](https://creativecommons.org/licenses/by-nc-nd/4.0/#ref-commercial-purposes).  
+- __NoDerivatives__ — If you [remix, transform, or build upon](https://creativecommons.org/licenses/by-nc-nd/4.0/#ref-some-kinds-of-mods) the material, you may not distribute the modified material.
+
+For uses beyond these terms, please contact [matt@matthewjmoran.com](mailto:matt@matthewjmoran.com).  
