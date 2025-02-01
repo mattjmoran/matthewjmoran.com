@@ -1,0 +1,107 @@
+/*
+ * Common practice to define custom properties on the `:root` pseudo-class,
+ * so that it can be referenced globally. 
+ * https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties
+ */
+:root {
+	/* 
+	 * Colors 
+	 */
+	--light-gray: #999999;
+	--gray: #666666;
+	--dark-gray: #111111;
+	--light-green: #aaff77;
+	--green: #55ff00;
+
+	/* 
+	 * Z-indices 
+	 */
+	--z-pointer: 100;
+	--z-loading: 200;
+}
+
+/*
+ * Global Styles
+ */
+::selection {
+	/* Color */
+	background: var(--light-green);
+}
+
+html,
+body {
+	/* Scrolling */
+	max-width: 100%;
+	overflow-x: hidden;
+	scroll-behavior: smooth;
+}
+
+html {
+	/* Color */
+	background: black;
+}
+
+body {
+	/* Color */
+	background-color: white;
+}
+
+/*
+ * Custom Fonts
+ */
+@font-face {
+	font-family: 'jgs_font';
+	src:
+		url('$lib/fonts/jgs_font.woff2') format('woff2'),
+		url('$lib/fonts/jgs_font.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'jgs7';
+	src:
+		url('$lib/fonts/jgs7.woff2') format('woff2'),
+		url('$lib/fonts/jgs7.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'jgs5';
+	src:
+		url('$lib/fonts/jgs5.woff2') format('woff2'),
+		url('$lib/fonts/jgs5.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'jgs9';
+	src:
+		url('$lib/fonts/jgs9.woff2') format('woff2'),
+		url('$lib/fonts/jgs9.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Mars Display';
+	src:
+		url('$lib/fonts/elvenes-regulardisplay.woff2') format('woff2'),
+		url('$lib/fonts/elvenes-regulardisplay.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Mars Display';
+	src:
+		url('$lib/fonts/elvenes-bolddisplay.woff2') format('woff2'),
+		url('$lib/fonts/elvenes-bolddisplay.woff') format('woff');
+	font-weight: bold;
+	font-style: normal;
+}

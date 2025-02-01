@@ -1,0 +1,117 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - 'trunk'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  # ---------------------------------------------------------------------
+  # Release Please
+  # ---------------------------------------------------------------------
+  release-please:
+    name: 'Release Please'
+    runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.release-please.outputs.release_created }}
+    steps:
+      - name: Release Please Action
+        uses: googleapis/release-please-action@v4
+        id: release-please
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          release-type: node
+      - name: Log Release Output
+        run: |
+          if [[ -z "${{ steps.release-please.outputs.release_created }}" ]]; then
+            echo "No release created."
+          else
+            echo "Release created, deploying to production."
+          fi
+
+  # ---------------------------------------------------------------------
+  # Build Svelte App
+  # ---------------------------------------------------------------------
+  build:
+    name: 'Build Svelte App'
+    needs: release-please
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: pnpm
+          cache-dependency-path: 'pnpm-lock.yaml'
+      - name: Install Dependencies
+        run: pnpm install
+      - name: Check
+        run: pnpm run check
+      - name: Build
+        run: pnpm run build
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: 'build/'
+
+  # ---------------------------------------------------------------------
+  # Deploy to Cloudflare Pages (Preview)
+  # ---------------------------------------------------------------------
+  preview:
+    name: 'Deploy to Cloudflare Pages (Preview)'
+    needs: [release-please, build]
+    runs-on: ubuntu-latest
+    environment:
+      name: Cloudflare Pages
+      url: https://preview.matthewjmoran.pages.dev/
+    steps:
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+          path: 'build/'
+      - name: Deploy with Wrangler
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: >
+            pages deploy build --project-name=${{ vars.CLOUDFLARE_PROJECT }}
+            --branch=preview
+
+  # ---------------------------------------------------------------------
+  # Deploy to Cloudflare Pages (Production)
+  # ---------------------------------------------------------------------
+  production:
+    name: 'Deploy to Cloudflare Pages (Production)'
+    needs: [release-please, build]
+    if: ${{ needs.release-please.outputs.release_created }}
+    runs-on: ubuntu-latest
+    environment:
+      name: Cloudflare Pages
+      url: https://matthewjmoran.com/
+    steps:
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+          path: 'build/'
+      - name: Deploy with Wrangler
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: >
+            pages deploy build --project-name=${{ vars.CLOUDFLARE_PROJECT }}
+            --branch=production
