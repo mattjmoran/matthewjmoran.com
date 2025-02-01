@@ -33,7 +33,7 @@ docker run -it --rm --name mjm-preview -p 4173:4173 mjm-preview
 
 Releases are automated with the [Release Please GitHub Action](https://github.com/google-github-actions/release-please-action). This tool automates CHANGELOG generation, GitHub release creation, and [Semantic Versioning](https://semver.org/) bumps.
 
-It works by parsing the project's Git history for [Conventional Commit](<(https://www.conventionalcommits.org/)>) messages and automatically generating release pull requests (PRs).
+It works by parsing the project's Git history for [Conventional Commit](https://www.conventionalcommits.org/) messages and automatically generating release pull requests (PRs).
 
 These release PRs are continuously updated as new changes are pushed to the `trunk` branch until the PR is merged for release.
 
