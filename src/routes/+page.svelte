@@ -4,12 +4,18 @@
 
 	// Section 1 of 4: Introduction
 	const seed = Math.random();
-	let transitionH: number = $state(1);
-	let transitionW: number = $state(1);
-	let transitionY: number = $derived(Math.ceil(transitionH / 50));
-	let transitionX: number = $derived(Math.ceil(transitionW / (transitionH / transitionY)));
-	let rangeX: number[] = $derived([...Array(transitionX).keys()]);
-	let rangeY: number[] = $derived([...Array(transitionY).keys()]);
+	let transitionDiv = $state({ 
+		width: 1, 
+		height: 1
+	});
+	let transitionSvg = $derived({
+		height: Math.ceil(transitionDiv.height / 50),
+		width: Math.ceil((transitionDiv.width * Math.ceil(transitionDiv.height / 50)) / transitionDiv.height)
+	});
+	let transitionRepeat = $derived({
+		x: [...Array(transitionSvg.width).keys()],
+		y: [...Array(transitionSvg.height).keys()]
+	});
 </script>
 
 <!-- Section 1 of 4: Introduction -->
@@ -21,11 +27,11 @@
 			Pages.
 		</p>
 	</div>
-	<div class="transition" bind:clientWidth={transitionW} bind:clientHeight={transitionH}>
-		<svg viewBox="0 0 {transitionX} {transitionY}">
-			{#each rangeX as x}
-				{#each rangeY as y}
-					{#if hash((y + 1) * (x + 1), seed) < (y + 1) / (transitionY + 1)}
+	<div class="transition" bind:clientWidth={transitionDiv.width} bind:clientHeight={transitionDiv.height}>
+		<svg viewBox="0 0 {transitionSvg.width} {transitionSvg.height}">
+			{#each transitionRepeat.x as x}
+				{#each transitionRepeat.y as y}
+					{#if hash((y + 1) * (x + 1), seed) < (y + 1) / (transitionSvg.height + 1)}
 						<rect {x} {y} width="1" height="1" />
 					{/if}
 				{/each}
@@ -75,7 +81,6 @@
 			backdrop-filter: blur(4px);
 			mask-image: linear-gradient(to top, black 33%, transparent 100%);
 		}
-
 		& .content {
 			/* Position and size */
 			position: relative;
