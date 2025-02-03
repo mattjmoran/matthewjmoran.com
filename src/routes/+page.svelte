@@ -1,8 +1,15 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import Header from '$lib/components/Header.svelte';
+	import Icon from '$lib/components/Icon.svelte';
 	import hash from '$lib/utils/hash';
 
 	// Section 1 of 4: Introduction
+
+	// Section 1: Time
+	let time: string | undefined = $state();
+
+	// Section 1: Transition
 	const seed = Math.random();
 	let transitionDiv = $state({ 
 		width: 1, 
@@ -16,16 +23,41 @@
 		x: [...Array(transitionSvg.width).keys()],
 		y: [...Array(transitionSvg.height).keys()]
 	});
+
+	// Lifecycle Hooks
+  onMount(() => {
+    const interval = setInterval(() =>
+			time = new Intl.DateTimeFormat('en-US', {
+				hour: '2-digit',
+				minute: '2-digit',
+				second: '2-digit',
+				hourCycle: 'h23',
+				timeZone: 'America/Chicago'
+			}).format(new Date())
+		, 1000);
+    return () => clearInterval(interval);
+  });
 </script>
 
 <!-- Section 1 of 4: Introduction -->
 <div id="section-1">
 	<div class="content">
-		<h1>Matthew <br />J. Moran</h1>
-		<p>
-			This website was created with SvelteKit's static site generator and is hosted on Cloudflare
-			Pages.
-		</p>
+		<div class="top"></div>
+		<div class="middle"></div>
+		<div class="bottom">
+			<div class="bottom-left">
+				<h1>Matthew<br />J. Moran</h1>
+				<div>
+					<p>Scroll<br />for more</p>
+					<div>
+						<Icon name="mouse" size="100%" fill="var(--light-gray)" />
+					</div>
+				</div>
+			</div>
+			<div class="bottom-right">
+				<p>Chicago {time}</p>
+			</div>
+		</div>
 	</div>
 	<div class="transition" bind:clientWidth={transitionDiv.width} bind:clientHeight={transitionDiv.height}>
 		<svg viewBox="0 0 {transitionSvg.width} {transitionSvg.height}">
@@ -86,16 +118,133 @@
 			position: relative;
 			width: 100%;
 			min-height: calc(100vh - var(--border-margin));
+			display: flex;
+			flex-direction: column;
 
 			/* Padding for content */
 			padding: 60px;
+			@media (--tablet), (--phone) {
+				padding: 40px;
+			}
 
-			/* Start of temporary styles (centered content) */
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			/* End of temporary styles (centered content) */
+			& .top {
+				/* Position and size */
+				flex: 1;
+			}
+			& .middle {
+				/* Position and size */
+				flex: 1;
+			}
+
+			& .bottom {
+				/* Position and size */
+				flex: 1;
+				display: flex;
+				justify-content: space-between;
+				align-items: flex-end;
+
+				/* Typography */
+				& p {
+					font-family: 'jgs_font';
+					color: var(--light-gray);
+					font-size: 1.25rem;
+					line-height: 1.25rem;
+					text-transform: uppercase;
+					margin: 0;
+				}
+
+				& .bottom-left {
+					/* Position and size */
+					display: flex;
+					flex-direction: row;
+					align-items: flex-end;
+
+					/* Typography */
+					& h1 {
+						font-family: 'Mars Display';
+						font-weight: bold;
+						font-size: 9rem;
+						line-height: 9rem;
+						margin: 0;
+						margin-right: 20px;
+						@media (--laptop) {
+							font-size: 6rem;
+							line-height: 6rem;
+						}
+						@media (--tablet) {
+							font-size: 5rem;
+							line-height: 5rem;
+						}
+						@media (--phone) {
+							font-size: 4rem;
+							line-height: 4rem;
+						}
+					}
+
+					/* Scroll information container */
+					& div {
+						/* Position and size */
+						display: flex;
+						flex-direction: column;
+						align-items: flex-start;
+
+						/* Margin for content */
+						margin-bottom: 20px;
+						@media (--laptop) {
+							margin-bottom: 10px;
+						}
+
+						& p {
+							margin-bottom: 10px; 
+						}
+
+						/* Icon */
+						& div {
+							width: 64px;
+							height: 64px;
+							margin: 0;
+						}
+					}
+
+					/* Adjust positioning and margins for mobile */
+					@media (--tablet), (--phone) {
+						flex-direction: column;
+						align-items: center;
+						& h1 {
+							margin-right: 0;
+							margin-bottom: 10px;
+						}
+						& div {
+							display: flex;
+							flex-direction: row;
+							align-items: center;
+							margin-bottom: 0px;
+							& p {
+								margin-bottom: 0; 
+								margin-right: 10px;
+							}
+							& div {
+								width: 48px;
+								height: 48px;
+							}
+						}
+					}
+				}
+
+				& .bottom-right {
+					text-align: right;
+				}
+
+				/* Adjust positioning and content for mobile */
+				@media (--tablet), (--phone) {
+					align-items: center;
+					justify-content: center;
+
+					& .bottom-right {
+						display: none;
+					}
+				}
+			}
 		}
 
 		& .transition {
@@ -118,46 +267,6 @@
 				fill: black;
 			}
 		}
-
-		/* Start of temporary styles (typography) */
-		h1 {
-			font-family: 'Mars Display';
-			font-weight: bold;
-			font-size: 9rem;
-			line-height: 9rem;
-
-			@media (--laptop) {
-				font-size: 7rem;
-				line-height: 7rem;
-			}
-
-			@media (--tablet) {
-				font-size: 5rem;
-				line-height: 5rem;
-			}
-
-			@media (--phone) {
-				font-size: 4rem;
-				line-height: 4rem;
-			}
-		}
-
-		p {
-			font-family: 'jgs_font';
-			text-align: center;
-			text-transform: uppercase;
-			color: var(--light-gray);
-			font-size: 1rem;
-
-			@media (--tablet) {
-				font-size: 0.875rem;
-			}
-
-			@media (--phone) {
-				font-size: 0.75rem;
-			}
-		}
-		/* End of temporary styles (typography) */
 	}
 
 	/* Section 2 of 4: Resume */
