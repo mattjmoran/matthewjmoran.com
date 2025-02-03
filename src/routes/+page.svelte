@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import FountainPen from '$lib/assets/fountain-pen.png'
 	import Header from '$lib/components/Header.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import hash from '$lib/utils/hash';
@@ -43,7 +44,23 @@
 <div id="section-1">
 	<div class="content">
 		<div class="top"></div>
-		<div class="middle"></div>
+		<div class="middle">
+			<ul>
+				<li class="click">
+					<Icon name="click" size={32} fill="black" />
+				</li>
+				<li>
+					<a href="/">Resume</a>
+				</li>
+				<li>
+					<a href="/">Projects</a>
+				</li>
+				<li>
+					<a href="/">About</a>
+				</li>
+			</ul> 
+			<img src={FountainPen} alt="Fountain Pen">
+		</div>
 		<div class="bottom">
 			<div class="bottom-left">
 				<h1>Matthew<br />J. Moran</h1>
@@ -125,8 +142,8 @@
 			padding: 60px;
 			@media (--tablet), (--phone) {
 				padding: 40px;
+				flex-direction: column-reverse;
 			}
-
 			& .top {
 				/* Position and size */
 				flex: 1;
@@ -134,11 +151,88 @@
 			& .middle {
 				/* Position and size */
 				flex: 1;
+				display: flex;
+				justify-content: flex-end; 
+				align-items: flex-end;
+				flex-direction: column;
+				text-align: right;
+
+				& ul {
+					padding: 0;
+					margin: 0;
+				}
+
+				& .click {
+					transition: transform ease 250ms;
+					&:hover {
+						transform: translate(0, 10px);
+					}
+				}
+
+				/* Navigation menu */
+				& li {
+					font-family: 'AUTHENTIC Sans';
+					font-size: 2rem;
+					line-height: 2.75rem;
+					list-style-type: none;
+					text-transform: capitalize;
+					margin: 0;
+
+					& a {
+						background:
+						linear-gradient(
+							to bottom,
+							var(--light-green) 0%,
+							var(--light-green) 100%
+						);
+						background-position: 0 100%;
+						background-repeat: repeat-x;
+						background-size: 4px 4px;
+						color: #000;
+						text-decoration: none;
+						transition: background-size ease 250ms;
+
+						&:hover {
+							background-size: 4px 2.75rem;
+						}
+					}
+				}
+
+				& img {
+					position: relative;
+					transform-origin: center;
+					transform: rotate(20deg);
+					filter: drop-shadow(15px 10px 5px rgb(0 0 0 / 50%));
+					width: min(850px, 75vw);
+					top: min(10px, 1vw);
+					left: min(300px, 25vw);
+					user-select: none;
+					transition: transform ease 250ms;
+
+					&:hover {
+						transform: rotate(10deg);
+					}
+
+					@media (--laptop) {
+						transform: rotate(15deg);
+						width: 75vw;
+					}
+
+					@media (--tablet), (--phone) {
+						display: none;
+					}
+				}
+
+				@media (--tablet), (--phone) {
+					text-align: center;
+					align-items: center;
+					justify-content: center;
+				}
 			}
 
 			& .bottom {
 				/* Position and size */
-				flex: 1;
+				flex: 0 1 auto;
 				display: flex;
 				justify-content: space-between;
 				align-items: flex-end;
@@ -237,6 +331,7 @@
 
 				/* Adjust positioning and content for mobile */
 				@media (--tablet), (--phone) {
+					flex: 1;
 					align-items: center;
 					justify-content: center;
 
