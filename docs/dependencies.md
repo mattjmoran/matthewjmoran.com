@@ -20,6 +20,7 @@
   - [Autoprefixer](https://github.com/postcss/autoprefixer)
   - [cssnano](https://cssnano.github.io/cssnano/)
   - [Preset Env](https://preset-env.cssdb.org/)
+  - [Extend Rule](https://github.com/csstools/postcss-extend-rule)
 - [sanitize.css](https://csstools.github.io/sanitize.css/)
 - [ESLint](https://eslint.org/)
   - [TypeScript Config](https://typescript-eslint.io/)
