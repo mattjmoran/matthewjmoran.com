@@ -28,6 +28,7 @@
 	@import '$lib/styles/media-queries.pcss';
 
 	.header {
+		width: fit-content;
 		display: inline-block;
 		position: relative;
 	}
@@ -68,6 +69,7 @@
 	}
 
 	h1 {
+		display: inline-block;
 		color: var(--dark-gray);
 		margin: 0;
 		font-family: 'Mars Display';
