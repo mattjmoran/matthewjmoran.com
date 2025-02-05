@@ -13,3 +13,4 @@ A collection of resources that I have found useful while working on this project
 - [Google TypeScript Style Guide](https://google.github.io/styleguide/tsguide.html) - The TypeScript style guide used at Google.
 - [Google HTML/CSS Style Guide](https://google.github.io/styleguide/htmlcssguide.html) - The HTML/CSS style guide used at Google.
 - [How to Make Repeating Border Images](https://css-tricks.com/how-to-make-repeating-border-images/) - A guide on how to make repeating border images in CSS.
+- [CSS Flexbox Layout Guide](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) - A comprehensive guide to CSS flexbox layout.
