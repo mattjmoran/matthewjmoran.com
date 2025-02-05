@@ -93,9 +93,7 @@
 </div>
 
 <div id="resume">
-	<div class="content">
-		<Header text="Updating" icon="crane" direction="right" />
-	</div>
+	<Header text="Updating" icon="crane" direction="right" />
 </div>
 
 <style lang="postcss">
@@ -118,9 +116,9 @@
 			position: absolute;
 			inset: 0;
 			backdrop-filter: blur(4px);
-			mask-image: linear-gradient(to top, black 33%, transparent 100%);
+			mask-image: linear-gradient(to bottom, transparent 0%, black 60%, black 100%);
 			@media (--tablet), (--phone) {
-				mask-image: linear-gradient(to bottom, black 33%, transparent 100%);
+				mask-image: linear-gradient(to bottom, black 0%, black 40%, transparent 60%, black 100%);
 			}
 		}
 	}
@@ -209,6 +207,7 @@
 			@extend %flex-center;
 			flex-direction: column-reverse;
 			flex: 1;
+			gap: 20px;
 		}
 	}
 
@@ -220,21 +219,19 @@
 			@extend %no-space;
 			font: bold 9rem/100% 'Mars Display';
 			@media (--laptop) {
-				font-size: 6rem;
+				font-size: 6.25rem;
 			}
 			@media (--tablet) {
-				font-size: 5rem;
+				font-size: 5.5rem;
 			}
 			@media (--phone) {
-				font-size: 4rem;
+				font-size: 4.5rem;
 			}
 		}
 		@media (--tablet), (--phone) {
 			@extend %flex-column;
 			align-items: center;
-			& h1 {
-				margin: 10px;
-			}
+			gap: 20px;
 		}
 	}
 
@@ -272,12 +269,9 @@
 	}
 
 	#resume {
+		@extend %flex-column;
 		padding: 70px;
 		background-color: black;
-	}
-
-	#resume .content {
-		@extend %flex-column;
 		align-items: center;
 	}
 </style>
