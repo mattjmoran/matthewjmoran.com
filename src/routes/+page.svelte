@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import FountainPen from '$lib/assets/fountain-pen.png';
 	import Header from '$lib/components/Header.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import hash from '$lib/utils/hash';
+
+	let innerWidth = $state(0);
 
 	const seed = Math.random();
 
@@ -40,9 +41,10 @@
 	});
 </script>
 
+<svelte:window bind:innerWidth={innerWidth} />
+
 <div id="intro">
 	<div class="content">
-		<div class="marquee"></div>
 		<div class="navigation">
 			<ul>
 				<li>
@@ -52,25 +54,31 @@
 					<a href="/#resume">Resume</a>
 				</li>
 				<li>
-					<a href="/">Projects</a>
+					<a href="/#resume">Projects</a>
 				</li>
 				<li>
-					<a href="/">About</a>
+					<a href="/#resume">About</a>
 				</li>
 			</ul>
-			<img src={FountainPen} alt="Fountain Pen" />
 		</div>
 		<div class="title">
-			<div class="header">
-				<h1>Matthew<br />J. Moran</h1>
-				<div class="scroll">
-					<p>Scroll<br />for more</p>
-					<div>
-						<Icon name="mouse" size="100%" fill="var(--light-gray)" />
-					</div>
+			{#if innerWidth >= 768}
+				<h1 style="justify-content: left;">Matthew</h1>
+				<h1 style="justify-content: right;">J. Moran</h1>
+			{:else}
+				<h1 style="justify-content: left;">M</h1>
+				<h1 style="justify-content: center;">J</h1>
+				<h1 style="justify-content: right;">M</h1>
+			{/if}
+		</div>
+		<div class="subtext">
+			<div class="scroll">
+				<p>Scroll<br />for more</p>
+				<div>
+					<Icon name="mouse" size="100%" fill="var(--light-gray)" />
 				</div>
 			</div>
-			<div>
+			<div class="time">
 				<p>Chicago {time}</p>
 			</div>
 		</div>
@@ -84,7 +92,7 @@
 			{#each transitionRepeat.x as x}
 				{#each transitionRepeat.y as y}
 					{#if hash((y + 1) * (x + 1), seed) < (y + 1) / (transitionSvg.height + 1)}
-						<rect {x} {y} width="1" height="1" />
+						<rect {x} {y} width="1" height="1" shape-rendering="crispEdges" />
 					{/if}
 				{/each}
 			{/each}
@@ -102,6 +110,7 @@
 
 	:root {
 		--border-margin: 10px;
+		--title-height-percent: 0.75;
 		--transition-height: max(25vh, 100px);
 		--transition-speed: 250ms;
 	}
@@ -117,9 +126,6 @@
 			inset: 0;
 			backdrop-filter: blur(4px);
 			mask-image: linear-gradient(to bottom, transparent 0%, black 60%, black 100%);
-			@media (--tablet), (--phone) {
-				mask-image: linear-gradient(to bottom, black 0%, black 40%, transparent 60%, black 100%);
-			}
 		}
 	}
 
@@ -128,114 +134,101 @@
 		padding: 60px;
 		position: relative;
 		min-height: calc(100vh - var(--border-margin));
-		@media (--tablet), (--phone) {
-			flex-direction: column-reverse;
+		@media (--phone) {
 			padding: 40px;
 		}
 	}
 
-	#intro .content .marquee {
-		flex: 1;
-	}
-
-	#intro .content .navigation {
+	#intro .navigation {
 		@extend %flex-column;
-		justify-content: flex-end;
+		justify-content: flex-start;
 		align-items: flex-end;
 		text-align: right;
 		flex: 1;
 		& ul {
 			@extend %no-space;
 			list-style-type: none;
-		}
-		& li {
-			font: 2rem 'AUTHENTIC Sans';
-			margin: 5px 0;
-			text-transform: capitalize;
-			&:nth-child(1) {
-				transition: transform ease var(--transition-speed);
-				&:hover {
-					transform: translate(0, 10px);
+			&:hover {
+				& li a {
+					color: var(--light-gray);
+				}
+				& li:nth-child(1) {
+					transform: translate(0, 5px);
 				}
 			}
 		}
-		& a {
-			color: black;
-			background: linear-gradient(to bottom, var(--light-green) 0%, var(--light-green) 100%) repeat-x 0 100% / 4px 4px;
-			text-decoration: none;
-			transition: background-size ease var(--transition-speed);
-			&:hover {
-				background-size: 4px 100%;
-			}
-		}
-		& img {
-			position: relative;
-			transform-origin: center;
-			transform: rotate(20deg);
-			width: min(850px, 75vw);
-			top: min(10px, 1vw);
-			left: min(300px, 25vw);
-			filter: drop-shadow(15px 10px 5px rgb(0 0 0 / 50%));
-			user-select: none;
+		& ul li {
+			font: 1.5rem 'AUTHENTIC Sans';
+			margin: 5px 0;
+			text-transform: capitalize;
 			transition: transform ease var(--transition-speed);
-		}
-		@media (--laptop) {
-			& img {
-				transform: rotate(15deg);
+			& a {
+				color: black;
+				background: linear-gradient(to bottom, var(--light-green) 0%, var(--light-green) 100%) repeat-x 0 100% / 4px 4px;
+				text-decoration: none;
+				transition: background-size ease var(--transition-speed), color ease var(--transition-speed);
+					&:hover {
+					color: black;
+					background-size: 4px 100%;
+				}
 			}
 		}
 		@media (--tablet), (--phone) {
-			@extend %flex-center;
-			text-align: center;
-			& img {
-				display: none;
+			align-items: center;
+			& ul {
+				@extend %flex-row;
+				justify-content: center;
+				align-items: flex-start;
+				gap: 15px;
+			}
+			& ul li {
+				font-size: 1.25rem;
+				&:nth-child(1) {
+					display: none;
+				}
 			}
 		}
 	}
 
-	#intro .content .title {
+	#intro .title {
+		@extend %flex-column;
+		justify-content: center;
+		flex: 1;
+		& h1 {
+			@extend %no-space, %flex-center;
+			font: bold 13rem/1 'Mars Display';
+			height: calc(13rem * var(--title-height-percent));
+			user-select: none;
+			@media (--laptop) {
+				font-size: 10rem;
+				height: calc(10rem * var(--title-height-percent));
+			}
+			@media (--tablet), (--phone) {
+				font-size: 12rem;
+				height: calc(12rem * var(--title-height-percent));
+			}
+		}
+	}
+
+	#intro .subtext {
 		@extend %flex-row;
 		justify-content: space-between;
 		align-items: flex-end;
+		flex: 1;
 		& p {
 			@extend %no-space;
 			font: 1.25rem/100% 'jgs_font';
 			color: var(--light-gray);
 			text-transform: uppercase;
 		}
-		@media (--tablet), (--phone) {
-			@extend %flex-center;
-			flex-direction: column-reverse;
-			flex: 1;
-			gap: 20px;
+		@media (--phone) {
+			& p {
+				font-size: 1rem;
+			}
 		}
 	}
 
-	#intro .content .title .header {
-		@extend %flex-row;
-		align-items: flex-end;
-		gap: 10px;
-		& h1 {
-			@extend %no-space;
-			font: bold 9rem/100% 'Mars Display';
-			@media (--laptop) {
-				font-size: 6.25rem;
-			}
-			@media (--tablet) {
-				font-size: 5.5rem;
-			}
-			@media (--phone) {
-				font-size: 4.5rem;
-			}
-		}
-		@media (--tablet), (--phone) {
-			@extend %flex-column;
-			align-items: center;
-			gap: 20px;
-		}
-	}
-
-	#intro .content .title .header .scroll {
+	#intro .scroll {
 		@extend %flex-column;
 		gap: 10px;
 		& div {
@@ -244,15 +237,17 @@
 		}
 		@media (--tablet), (--phone) {
 			@extend %flex-row;
-			align-items: center;
-			& p {
-				text-align: right;
-			}
+			flex-direction: row-reverse;
+			align-items: flex-end;
 			& div {
 				width: 48px;
 				height: 48px;
 			}
 		}
+	}
+
+	#intro .time {
+		text-align: right;
 	}
 
 	#intro .transition {
