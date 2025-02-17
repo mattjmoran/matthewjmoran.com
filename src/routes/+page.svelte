@@ -196,13 +196,9 @@
 		flex: 1;
 		& h1 {
 			@extend %no-space, %flex-center;
-			font: bold 13rem/1 'Mars Display';
-			height: calc(13rem * var(--title-height-percent));
 			user-select: none;
-			@media (--laptop) {
-				font-size: 10rem;
-				height: calc(10rem * var(--title-height-percent));
-			}
+			font: bold 15vw/1 'Mars Display';
+			height: calc(15vw * var(--title-height-percent));
 			@media (--tablet), (--phone) {
 				font-size: 12rem;
 				height: calc(12rem * var(--title-height-percent));
