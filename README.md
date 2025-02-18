@@ -39,16 +39,16 @@ These release PRs are continuously updated as new changes are pushed to the `tru
 
 Every push to `trunk` deploys the build to the preview Cloudflare Pages environment, and when a release PR is merged, the site is deployed to the production Cloudflare Pages environment.
 
-This entire process is automated with Github Actions. See [deploy.yaml](.github/workflows/deploy.yaml) for more details.
+This entire process is automated with Github Actions. See [`deploy.yaml`](.github/workflows/deploy.yaml) for more details.
 
 ## Documentation
 
 The following documents provide additional details about various aspects of the project:
 
-- [docs/credits](docs/credits.md) - Acknowledgements and credits for contributions and resources that have supported the project.
-- [docs/dependencies](docs/dependencies.md) - A detailed list of project dependencies, including tools, libraries, and frameworks used throughout the website.
-- [docs/mindmap](docs/mindmap.md) - A mindmap to help brainstorm creative ideas for this project.
-- [docs/resources](docs/resources.md) - A collection of external resources, software, tools, guides, articles, tutorials, videos, and more relevant to the project's development and maintenance.
+- [`docs/credits.md`](docs/credits.md) - Acknowledgements and credits for contributions and resources that have supported the project.
+- [`docs/dependencies.md`](docs/dependencies.md) - A detailed list of project dependencies, including tools, libraries, and frameworks used throughout the website.
+- [`docs/mindmap.md`](docs/mindmap.md) - A mindmap to help brainstorm creative ideas for this project.
+- [`docs/resources.md`](docs/resources.md) - A collection of external resources, software, tools, guides, articles, tutorials, videos, and more relevant to the project's development and maintenance.
 
 ## License
 
