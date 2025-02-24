@@ -76,7 +76,7 @@
 		font-weight: bold;
 		font-size: 10rem;
 		line-height: 10rem;
-		text-transform: lowercase;
+		text-transform: capitalize;
 
 		@media (--laptop) {
 			font-size: 8rem;
