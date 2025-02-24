@@ -26,22 +26,24 @@
 		y: [...Array(transitionSvg.height).keys()]
 	});
 
-	const onpointermove = (event: {pageX: number; pageY: number}) => {
-		const motion = { x: innerWidth / 100, y: innerHeight / 100 };
+	const onpointermove = (event: { pointerType: string; pageX: number; pageY: number }) => {
+		if (event.pointerType == 'mouse') {
+			const motion = { x: innerWidth / 100, y: innerHeight / 100 };
 
-		const line = document.querySelector('#intro .line');
-    if (line instanceof SVGSVGElement) {
-        const x = (event.pageX / innerWidth - 0.5) * motion.x * 4; 
-        const y = (event.pageY / innerHeight - 0.5) * motion.y * 4;
-        line.style.transform = `translateX(calc(-50% + ${x}px)) translateY(${y}px)`;
-    }
-		
-		const title = document.querySelector('#intro .title');
-		if (title instanceof HTMLElement) {
-			const { left, top, width, height } = title.getBoundingClientRect();
-			const x = (((event.pageX - left) / width) - 0.5) * motion.x;
-			const y = (((event.pageY - top) / height) - 0.5) * motion.y;
-			title.style.transform = `translateX(${x}px) translateY(${y}px)`;
+			const line = document.querySelector('#intro .line');
+			if (line instanceof SVGSVGElement) {
+					const x = (event.pageX / innerWidth - 0.5) * motion.x * 4; 
+					const y = (event.pageY / innerHeight - 0.5) * motion.y * 4;
+					line.style.transform = `translateX(calc(-50% + ${x}px)) translateY(${y}px)`;
+			}
+			
+			const title = document.querySelector('#intro .title');
+			if (title instanceof HTMLElement) {
+				const { left, top, width, height } = title.getBoundingClientRect();
+				const x = (((event.pageX - left) / width) - 0.5) * motion.x;
+				const y = (((event.pageY - top) / height) - 0.5) * motion.y;
+				title.style.transform = `translateX(${x}px) translateY(${y}px)`;
+			}
 		}
 	};
 
@@ -93,9 +95,9 @@
 					<path d="M4 102c27 6 151-1 277-21 157-25 195 39 274 10 75-26 64-97 14-86-72 17 11 86 71 86 47 0 101-12 164-19" stroke="#55ff00" stroke-linecap="round"/>
 				</svg>	
 			{:else}
-				<h1 style="justify-content: left; z-index: 1;">M</h1>
-				<h1 style="justify-content: center;">J</h1>
-				<h1 style="justify-content: right; z-index: 1;">M</h1>
+				<h1 style="justify-content: left;">M</h1>
+				<h1 style="justify-content: center; z-index: 1;">J</h1>
+				<h1 style="justify-content: right;">M</h1>
 				<svg class="line" fill="none" viewBox="0 0 735 403" xmlns="http://www.w3.org/2000/svg">
 					<path d="M6 5c245 69 284 260 428 259 137-1 243-95 128-140-119-46-81 158 0 204 65 38 73 36 168 69" stroke="#5f0" stroke-linecap="round"/>
 				</svg>
