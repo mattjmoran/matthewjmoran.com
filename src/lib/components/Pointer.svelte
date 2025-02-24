@@ -26,7 +26,7 @@
 			isVisible = true;
 			if (event.target instanceof Element) {
 				const tagName = event.target.tagName.toLowerCase();
-				isVisible = !['p', 'span'].includes(tagName);
+				isVisible = !['p'].includes(tagName);
 				isHover = ['a', 'button'].includes(tagName);
 			}
 		} else {
