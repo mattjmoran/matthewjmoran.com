@@ -18,6 +18,7 @@
 	let hypot = $derived(
 		Math.hypot(pointer.current.x - pointer.target.x, pointer.current.y - pointer.target.y)
 	);
+
 	let border = $derived(6 * Math.max(1 - norm(hypot, 100, 0), 0) + 2);
 
 	const onpointermove = (event: { pointerType: string; pageX: number; pageY: number; target: EventTarget | null }) => {
@@ -33,6 +34,7 @@
 			isVisible = false;
 		}
 	};
+
 	const onscroll = () => (isVisible = false);
 	const onpointerleave = () => (isVisible = false);
 </script>
@@ -63,13 +65,13 @@
 	}
 
 	@keyframes rotating {
-  from {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  to {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
+		from {
+			transform: translate(-50%, -50%) rotate(0deg);
+		}
+		to {
+			transform: translate(-50%, -50%) rotate(360deg);
+		}
+	}
 
 	.hover {
 		animation: rotating 3s linear infinite;
