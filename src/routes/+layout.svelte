@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import animate from '$lib/utils/animate.svelte';
 	import Loading from '$lib/components/Loading.svelte';
 	import Pointer from '$lib/components/Pointer.svelte';
 
@@ -14,7 +15,13 @@
 	let { children } = $props();
 
 	let loading = $state(true);
-	onMount(() => (loading = false));
+	
+	onMount(() => {
+		loading = false;	
+		setTimeout(() => {
+			animate.trigger = true;
+		}, animate.delay);
+	});
 </script>
 
 <Loading {loading} />

@@ -1,8 +1,11 @@
 <script lang="ts">
+	import { fly } from 'svelte/transition';
+	import { backOut } from 'svelte/easing';
 	import { onMount } from 'svelte';
+	import animate from '$lib/utils/animate.svelte';
+	import hash from '$lib/utils/hash';
 	import Header from '$lib/components/Header.svelte';
 	import Icon from '$lib/components/Icon.svelte';
-	import hash from '$lib/utils/hash';
 
 	let innerWidth = $state(0);
 	let innerHeight = $state(0);
@@ -25,6 +28,15 @@
 		x: [...Array(transitionSvg.width).keys()],
 		y: [...Array(transitionSvg.height).keys()]
 	});
+
+	const animationParams = {
+		title: (order: number) => ({
+			duration: 500,
+			delay: 50 * order,
+			y: 25,
+			easing: backOut
+		})
+	};
 
 	const onpointermove = (event: { pointerType: string; pageX: number; pageY: number }) => {
 		if (event.pointerType == 'mouse') {
@@ -88,12 +100,17 @@
 		</div>
 		<div class="title">
 			{#if innerWidth >= 768}
-				<h1 style="justify-content: left;">Matthew</h1>			
-				<h1 style="justify-content: right;">J. <span style="z-index: 1;">Moran</span></h1>
-				<h2 style="justify-content: right;">Developer & Designer</h2>
+				{#if animate.trigger}
+					<h1 style="justify-content: left;" in:fly={animationParams.title(0)}>Matthew</h1>			
+					<h1 style="justify-content: right;">
+						<span in:fly={animationParams.title(1)}>J. </span>
+						<span style="z-index: 1;" in:fly={animationParams.title(2)}>Moran</span>
+					</h1>
+					<h2 style="justify-content: right;" in:fly={animationParams.title(3)}>Developer & Designer</h2>
+				{/if}
 				<svg class="line" fill="none" viewBox="0 0 808 108" xmlns="http://www.w3.org/2000/svg">
 					<path d="M4 102c27 6 151-1 277-21 157-25 195 39 274 10 75-26 64-97 14-86-72 17 11 86 71 86 47 0 101-12 164-19" stroke="#55ff00" stroke-linecap="round"/>
-				</svg>	
+				</svg>
 			{:else}
 				<h1 style="justify-content: left;">M</h1>
 				<h1 style="justify-content: center; z-index: 1;">J</h1>
@@ -101,7 +118,6 @@
 				<svg class="line" fill="none" viewBox="0 0 735 403" xmlns="http://www.w3.org/2000/svg">
 					<path d="M6 5c245 69 284 260 428 259 137-1 243-95 128-140-119-46-81 158 0 204 65 38 73 36 168 69" stroke="#5f0" stroke-linecap="round"/>
 				</svg>
-				
 			{/if}
 		</div>
 		<div class="subtext">
