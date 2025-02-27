@@ -10,7 +10,7 @@
 	} = $props();
 </script>
 
-<svg width={size} height={size} {fill}>
+<svg width={size} height={size} {fill} shape-rendering="crispEdges">
 	<use href={`#${name}`} />
 
 	<defs>
