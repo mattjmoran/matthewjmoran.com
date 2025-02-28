@@ -286,7 +286,6 @@
 		width: 110vw;
 		position: absolute;
     transform: translateX(-50%);
-    transition: transform 0.2s ease-out;
     & path {
 			stroke-width: 5;
 			stroke-dasharray: 15;
