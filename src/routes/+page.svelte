@@ -164,7 +164,47 @@
 </div>
 
 <div id="resume">
-	<Header text="Updating" icon="crane" direction="right" />
+	<div class="title">
+		<Header text="Resume" icon="clipboard" direction="right" />
+	</div>
+	<div class="lists">
+		<ul>
+			<li class="header">Foundations</li>
+			<li>TypeScript</li>
+			<li>HTML + CSS</li>
+			<li>SvelteKit</li>
+			<li>Go</li>
+			<li>Python</li>
+			<li>Pandas + Matplotlib</li>
+			<li>Bash</li>
+			<li>Canvas</li>
+		</ul>
+		<ul>
+			<li class="header">Toolkit</li>
+			<li>Website Design</li>
+			<li>Illustrator</li>
+			<li>Photoshop</li>
+			<li>Figma</li>
+			<li>Data Analysis + Visualization</li>
+			<li>DevOps</li>
+			<li>QA + Testing</li>
+		</ul>
+		<ul>
+			<li class="header">Ethos</li>
+			<li>Accuracy</li>
+			<li>Structure</li>
+			<li>Transparency</li>
+			<li>Reliability</li>
+			<li>Integrity</li>
+			<li>Inquiry</li>
+			<li>Diligence</li>
+		</ul>
+	</div>
+	<div class="download">
+		<a href="/Matthew_J_Moran_Resume.pdf" download>
+			Download Resume
+		</a>
+	</div>
 </div>
 
 <style lang="postcss">
@@ -370,5 +410,67 @@
 		padding: 70px;
 		background-color: black;
 		align-items: center;
+		@media (--phone) {
+			padding: 50px;
+		}
+	}
+
+	#resume .title {
+		@extend %flex-row;
+		justify-content: left;
+		width: 100%;
+		max-width: var(--max-content-width);
+		@media (--tablet), (--phone) {
+			justify-content: center;
+		}
+	}
+
+	#resume .lists {
+		@extend %flex-row;
+		justify-content: space-between;
+		width: 100%;
+		margin-top: 50px;
+		gap: 50px;
+		& ul {
+			@extend %no-space;
+			list-style-type: none;
+			color: white;
+		}
+		& li {
+			font: 2rem 'AUTHENTIC Sans';
+		}
+		& li:nth-child(1) {
+			font: 1rem 'jgs_font';
+			margin-bottom: 10px;
+			text-transform: uppercase;
+		}
+		@media (--tablet), (--phone) {
+			@extend %flex-column;
+			gap: 25px;
+		}
+	}
+
+	#resume .download {
+		@extend %flex-row;
+		width: 100%;
+		margin-top: 25px;
+		justify-content: right;
+		& a {
+			font: 1rem 'jgs_font';
+			text-transform: uppercase;
+			color: white;
+			background: linear-gradient(to bottom, white 0%, white 100%) repeat-x 0 100% / 0px 0px;
+			transition: background-size ease var(--transition-speed), color ease var(--transition-speed);
+			&:hover {
+				color: black;
+				background-size: 100% 100%;
+			}
+			&::after {
+				content: ' ***';
+			}
+		}
+		@media (--tablet), (--phone) {
+			justify-content: left;
+		}
 	}
 </style>
