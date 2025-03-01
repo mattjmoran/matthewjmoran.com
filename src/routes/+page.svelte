@@ -429,6 +429,7 @@
 		@extend %flex-row;
 		justify-content: space-between;
 		width: 100%;
+		max-width: var(--max-content-width);
 		margin-top: 50px;
 		gap: 50px;
 		& ul {
@@ -453,6 +454,7 @@
 	#resume .download {
 		@extend %flex-row;
 		width: 100%;
+		max-width: var(--max-content-width);
 		margin-top: 25px;
 		justify-content: right;
 		& a {
