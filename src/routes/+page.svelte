@@ -1,20 +1,20 @@
 <script lang="ts">
-	/** --- Import Dependencies --- */
+	// Import Dependencies
 	import { blur, fly } from 'svelte/transition';
 	import { backOut } from 'svelte/easing';
 	import { Spring } from 'svelte/motion';
 	import { onMount } from 'svelte';
 	
-	/** --- Custom Utilities --- */
+	// Custom Utilities
 	import animate from '$lib/utils/animate.svelte';
 	import pointer from '$lib/utils/pointer.svelte';
 	import hash from '$lib/utils/hash';
 
-	/** --- Components --- */
+	// Components
 	import Header from '$lib/components/Header.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 
-	/** --- Animation Parameters --- */
+	// Animation Parameters
 	const animationParams = {
 		title: (order: number) => ({
 			duration: 500,
@@ -25,7 +25,7 @@
 		line: { duration: 1000 }
 	};
 
-	/** --- Title & Line Motion Effect --- */
+	// Title & Line Motion Effect
 	let innerWidth = $state(0);
 	let innerHeight = $state(0);
 	const smoothMotion = $state(new Spring({ x: 0, y: 0 }));
@@ -55,7 +55,7 @@
 		});
 	});
 
-	/** --- SVG Section Transition --- */
+	// SVG Section Transition
 	const randomSeed = Math.random();
 	let svgContainer = $state({ width: 1, height: 1 });
 
@@ -69,7 +69,7 @@
 		y: [...Array(svgGrid.height).keys()]
 	});
 
-	/** --- Real-Time Clock (Chicago Time) --- */
+	// Real-Time Clock (Chicago Time)
 	let time = $state<string>();
 
 	onMount(() => {
