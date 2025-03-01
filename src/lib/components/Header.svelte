@@ -14,7 +14,10 @@
 	} = $props();
 </script>
 
-<div class="header">
+<div
+	class="header"
+  style={direction === 'left' ? `margin-left: calc(0.${x} * var(--size))` : `margin-right: calc(0.${x} * var(--size))`}
+>
 	<h1>{text}</h1>
 	<div
 		class="icon-wrapper {direction}"
@@ -27,6 +30,22 @@
 <style lang="postcss">
 	@import '$lib/styles/media-queries.pcss';
 
+	:root {
+		--size: 64px;
+
+		@media (--laptop) {
+			--size: calc(64px * 0.9)
+		}
+
+		@media (--tablet) {
+			--size: calc(64px * 0.65)
+		}
+
+		@media (--phone) {
+			--size: calc(64px * 0.5)
+		}
+	}
+
 	.header {
 		width: fit-content;
 		display: inline-block;
@@ -37,25 +56,8 @@
 		position: absolute;
 		bottom: 0px;
 		z-index: 1;
-
-		--size: 64px;
 		width: var(--size);
 		height: var(--size);
-
-		@media (--laptop) {
-			width: calc(var(--size) * 0.8);
-			height: calc(var(--size) * 0.8);
-		}
-
-		@media (--tablet) {
-			width: calc(var(--size) * 0.6);
-			height: calc(var(--size) * 0.6);
-		}
-
-		@media (--phone) {
-			width: calc(var(--size) * 0.4);
-			height: calc(var(--size) * 0.4);
-		}
 	}
 
 	.icon-wrapper.left {
@@ -70,7 +72,7 @@
 
 	h1 {
 		display: inline-block;
-		color: var(--dark-gray);
+		color: white;
 		margin: 0;
 		font-family: 'Mars Display';
 		font-weight: bold;
@@ -79,18 +81,18 @@
 		text-transform: capitalize;
 
 		@media (--laptop) {
-			font-size: 8rem;
-			line-height: 8rem;
+			font-size: 9rem;
+			line-height: 9rem;
 		}
 
 		@media (--tablet) {
-			font-size: 6rem;
-			line-height: 6rem;
+			font-size: 6.5rem;
+			line-height: 6.5rem;
 		}
 
 		@media (--phone) {
-			font-size: 4rem;
-			line-height: 4rem;
+			font-size: 5rem;
+			line-height: 5rem;
 		}
 	}
 </style>
