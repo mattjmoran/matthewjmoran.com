@@ -1,34 +1,47 @@
 <script lang="ts">
+	/** --- Import Dependencies --- */
 	import { Spring } from 'svelte/motion';
 	import { scale } from 'svelte/transition';
+	import pointer from '$lib/utils/pointer.svelte';
 
+	/** --- Reactive State Variables --- */
 	let isVisible = $state(false);
-	let isHover = $state(false);
-	let pointer = $state(
+	let isHovering = $state(false);
+
+	let follower = $state(
 		new Spring(
 			{ x: 0, y: 0 },
-			{
-				stiffness: 0.1,
-				damping: 0.5
-			}
+			{ stiffness: 0.1, damping: 0.5 }
 		)
 	);
 
-	const norm = (val: number, max: number, min: number) => (val - min) / (max - min);
-	let hypot = $derived(
-		Math.hypot(pointer.current.x - pointer.target.x, pointer.current.y - pointer.target.y)
+	/** --- Utility Functions --- */
+	const normalize = (value: number, max: number, min: number) => (value - min) / (max - min);
+
+	/** --- Derived Values --- */
+	let distance = $derived( 
+		Math.hypot(follower.current.x - follower.target.x, follower.current.y - follower.target.y)
 	);
 
-	let border = $derived(6 * Math.max(1 - norm(hypot, 100, 0), 0) + 2);
+	let borderWidth = $derived( 
+		6 * Math.max(1 - normalize(distance, 100, 0), 0) + 2
+	);
 
-	const onpointermove = (event: { pointerType: string; pageX: number; pageY: number; target: EventTarget | null }) => {
-		if (event.pointerType == 'mouse') {
-			pointer.target = { x: event.pageX, y: event.pageY };
+	/** --- Event Handlers --- */
+	const onpointermove = (event: PointerEvent) => {
+		const { pointerType, pageX, pageY, target } = event;
+		pointer.x = pageX;
+		pointer.y = pageY;
+		pointer.type = pointerType;
+
+		if (pointerType === 'mouse') {
+			follower.target = { x: pageX, y: pageY };
 			isVisible = true;
-			if (event.target instanceof Element) {
-				const tagName = event.target.tagName.toLowerCase();
-				isVisible = !['p'].includes(tagName);
-				isHover = ['a', 'button'].includes(tagName);
+
+			if (target instanceof Element) {
+				const tagName = target.tagName.toLowerCase();
+				isVisible = tagName !== 'p';
+				isHovering = ['a', 'button'].includes(tagName);
 			}
 		} else {
 			isVisible = false;
@@ -39,14 +52,15 @@
 	const onpointerleave = () => (isVisible = false);
 </script>
 
+
 <svelte:window {onscroll} />
 <svelte:body {onpointermove} {onpointerleave} />
 
 {#if isVisible}
 	<div
 		transition:scale={{ duration: 500 }}
-		class:hover={isHover}
-		style="left:{pointer.current.x}px; top:{pointer.current.y}px; border-width:{border}px"
+		class:hover={isHovering}
+		style="left:{follower.current.x}px; top:{follower.current.y}px; border-width:{borderWidth}px"
 	></div>
 {/if}
 
@@ -62,6 +76,7 @@
 		border-color: var(--green);
 		pointer-events: none;
 		z-index: var(--z-pointer);
+		will-change: left, top, border-width;
 	}
 
 	@keyframes rotating {

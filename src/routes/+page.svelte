@@ -1,89 +1,96 @@
 <script lang="ts">
+	/** --- Import Dependencies --- */
 	import { blur, fly } from 'svelte/transition';
 	import { backOut } from 'svelte/easing';
+	import { Spring } from 'svelte/motion';
 	import { onMount } from 'svelte';
+	
+	/** --- Custom Utilities --- */
 	import animate from '$lib/utils/animate.svelte';
+	import pointer from '$lib/utils/pointer.svelte';
 	import hash from '$lib/utils/hash';
+
+	/** --- Components --- */
 	import Header from '$lib/components/Header.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 
-	let innerWidth = $state(0);
-	let innerHeight = $state(0);
-
-	const seed = Math.random();
-
-	let transitionDiv = $state({
-		width: 1,
-		height: 1
-	});
-
-	let transitionSvg = $derived({
-		height: Math.ceil(transitionDiv.height / 50),
-		width: Math.ceil(
-			(transitionDiv.width * Math.ceil(transitionDiv.height / 50)) / transitionDiv.height
-		)
-	});
-
-	let transitionRepeat = $derived({
-		x: [...Array(transitionSvg.width).keys()],
-		y: [...Array(transitionSvg.height).keys()]
-	});
-
+	/** --- Animation Parameters --- */
 	const animationParams = {
 		title: (order: number) => ({
 			duration: 500,
-			delay: 50 * order,
+			delay: order * 50,
 			y: 25,
 			easing: backOut
 		}),
-		line : {
-			duration: 1000,
-			delay: 0,
-			easing: backOut
-		}
+		line: { duration: 1000 }
 	};
 
-	const onpointermove = (event: { pointerType: string; pageX: number; pageY: number }) => {
-		if (event.pointerType == 'mouse') {
-			const motion = { x: innerWidth / 100, y: innerHeight / 100 };
+	/** --- Title & Line Motion Effect --- */
+	let innerWidth = $state(0);
+	let innerHeight = $state(0);
+	const smoothMotion = $state(new Spring({ x: 0, y: 0 }));
 
-			const line = document.querySelector('#intro .line');
-			if (line instanceof SVGSVGElement) {
-					const x = (event.pageX / innerWidth - 0.5) * motion.x * 4; 
-					const y = (event.pageY / innerHeight - 0.5) * motion.y * 4;
-					line.style.transform = `translateX(calc(-50% + ${x}px)) translateY(${y}px)`;
-			}
-			
-			const title = document.querySelector('#intro .title');
-			if (title instanceof HTMLElement) {
-				const { left, top, width, height } = title.getBoundingClientRect();
-				const x = (((event.pageX - left) / width) - 0.5) * motion.x;
-				const y = (((event.pageY - top) / height) - 0.5) * motion.y;
-				title.style.transform = `translateX(${x}px) translateY(${y}px)`;
-			}
-		}
-	};
+	$effect(() => {
+		if (pointer.type !== 'mouse') return;
 
-	let time: string | undefined = $state();
+		const elements = [
+			{ selector: '#intro .title', scale: 1, maxOffset: 25 },
+			{ selector: '#intro .line', scale: 2, maxOffset: 25, offsetX: '-50%' }
+		];
+
+		elements.forEach(({ selector, scale, maxOffset, offsetX = '0px' }) => {
+			const element = document.querySelector(selector) as HTMLElement | SVGSVGElement;
+			if (!element) return;
+
+			const { left, top, width, height } = element.getBoundingClientRect();
+			let offsetXValue = (((pointer.x - left) / width) - 0.5) * (innerWidth / 100) * scale;
+			let offsetYValue = (((pointer.y - top) / height) - 0.5) * (innerHeight / 100) * scale;
+
+			smoothMotion.target = {
+				x: Math.max(-maxOffset, Math.min(maxOffset, offsetXValue)) || 0,
+				y: Math.max(-maxOffset, Math.min(maxOffset, offsetYValue)) || 0
+			};
+
+			element.style.transform = `translateX(calc(${offsetX} + ${smoothMotion.current.x}px)) translateY(${smoothMotion.current.y}px)`;
+		});
+	});
+
+	/** --- SVG Section Transition --- */
+	const randomSeed = Math.random();
+	let svgContainer = $state({ width: 1, height: 1 });
+
+	let svgGrid = $derived({
+		height: Math.ceil(svgContainer.height / 50),
+		width: Math.ceil((svgContainer.width * Math.ceil(svgContainer.height / 50)) / svgContainer.height)
+	});
+
+	let svgCells = $derived({
+		x: [...Array(svgGrid.width).keys()],
+		y: [...Array(svgGrid.height).keys()]
+	});
+
+	/** --- Real-Time Clock (Chicago Time) --- */
+	let time = $state<string>();
 
 	onMount(() => {
-		const interval = setInterval(
-			() =>
-				(time = new Intl.DateTimeFormat('en-US', {
-					hour: '2-digit',
-					minute: '2-digit',
-					second: '2-digit',
-					hourCycle: 'h23',
-					timeZone: 'America/Chicago'
-				}).format(new Date())),
-			1000
-		);
+		const updateTime = () => {
+			time = new Intl.DateTimeFormat('en-US', {
+				hour: '2-digit',
+				minute: '2-digit',
+				second: '2-digit',
+				hourCycle: 'h23',
+				timeZone: 'America/Chicago'
+			}).format(new Date());
+		};
+
+		updateTime();
+		const interval = setInterval(updateTime, 1000);
+
 		return () => clearInterval(interval);
 	});
 </script>
 
 <svelte:window bind:innerWidth={innerWidth} bind:innerHeight={innerHeight} />
-<svelte:body {onpointermove} />
 
 <div id="intro">
 	<div class="content">
@@ -141,13 +148,13 @@
 	</div>
 	<div
 		class="transition"
-		bind:clientWidth={transitionDiv.width}
-		bind:clientHeight={transitionDiv.height}
+		bind:clientWidth={svgContainer.width}
+		bind:clientHeight={svgContainer.height}
 	>
-		<svg viewBox="0 0 {transitionSvg.width} {transitionSvg.height}">
-			{#each transitionRepeat.x as x}
-				{#each transitionRepeat.y as y}
-					{#if hash((y + 1) * (x + 1), seed) < (y + 1) / (transitionSvg.height + 1)}
+		<svg viewBox="0 0 {svgGrid.width} {svgGrid.height}">
+			{#each svgCells.x as x}
+				{#each svgCells.y as y}
+					{#if hash((y + 1) * (x + 1), randomSeed) < (y + 1) / (svgGrid.height + 1)}
 						<rect {x} {y} width="1" height="1" shape-rendering="crispEdges" />
 					{/if}
 				{/each}
@@ -251,6 +258,7 @@
 		justify-content: center;
 		flex: 1;
 		user-select: none;
+		will-change: transform;
 		& h1 {
 			@extend %no-space, %flex-center;
 			font: bold 15vw/100% 'Mars Display';
@@ -286,6 +294,7 @@
 		width: 110vw;
 		position: absolute;
     transform: translateX(-50%);
+		will-change: transform;
     & path {
 			stroke-width: 5;
 			stroke-dasharray: 15;
