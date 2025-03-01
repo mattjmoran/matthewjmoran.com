@@ -1,10 +1,10 @@
 <script lang="ts">
-	/** --- Import Dependencies --- */
+	// Import Dependencies
 	import { Spring } from 'svelte/motion';
 	import { scale } from 'svelte/transition';
 	import pointer from '$lib/utils/pointer.svelte';
 
-	/** --- Reactive State Variables --- */
+	// Reactive State Variables
 	let isVisible = $state(false);
 	let isHovering = $state(false);
 
@@ -15,10 +15,10 @@
 		)
 	);
 
-	/** --- Utility Functions --- */
+	// Utility Functions
 	const normalize = (value: number, max: number, min: number) => (value - min) / (max - min);
 
-	/** --- Derived Values --- */
+	// Derived Values
 	let distance = $derived( 
 		Math.hypot(follower.current.x - follower.target.x, follower.current.y - follower.target.y)
 	);
@@ -27,7 +27,7 @@
 		6 * Math.max(1 - normalize(distance, 100, 0), 0) + 2
 	);
 
-	/** --- Event Handlers --- */
+	// Event Handlers
 	const onpointermove = (event: PointerEvent) => {
 		const { pointerType, pageX, pageY, target } = event;
 		pointer.x = pageX;
