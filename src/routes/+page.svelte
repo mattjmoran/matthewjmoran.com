@@ -103,10 +103,10 @@
 					<a href="/#resume">Resume</a>
 				</li>
 				<li>
-					<a href="/#resume">Projects</a>
+					<a href="/#projects">Projects</a>
 				</li>
 				<li>
-					<a href="/#resume">About</a>
+					<a href="/#about">About</a>
 				</li>
 			</ul>
 		</div>
@@ -206,6 +206,42 @@
 		</a>
 	</div>
 </div>
+
+<div id="projects">
+	<div class="title">
+		<Header text="Projects" icon="crane" direction="left" x={95} />
+	</div>
+	<div class="list">
+		<a href="https://github.com/JSA-Partners" target="_blank">
+			<ul>
+				<li>CATS <span>2023-Present</span></li>
+				<li>TypeScript, SvelteKit, Go</li>
+			</ul>
+		</a>
+		<a href="https://github.com/mattjmoran/dotfiles-macos" target="_blank">
+			<ul>
+				<li>dotfiles for macOS <span>2021-2023</span></li>
+				<li>Bash, Open Source</li>
+			</ul>
+		</a>
+		<a href="/">
+			<ul>
+				<li>Generative Art <span>2023</span></li>
+				<li>JavaScript, P5, Three.js</li>
+			</ul>
+		</a>
+		<a href="/">
+			<ul>
+				<li>Digital Color Theory <span>2019</span></li>
+				<li>Java, Processing</li>
+			</ul>
+		</a>
+	</div>
+</div>
+
+<footer>
+	<p>© {new Date().getFullYear()} Matthew J. Moran. All rights reserved.</p>
+</footer>
 
 <style lang="postcss">
 	@import '$lib/styles/media-queries.pcss';
@@ -442,6 +478,7 @@
 		}
 		& li:nth-child(1) {
 			font: 1rem 'jgs_font';
+			color: var(--light-gray);
 			margin-bottom: 10px;
 			text-transform: uppercase;
 		}
@@ -474,5 +511,89 @@
 		@media (--tablet), (--phone) {
 			justify-content: left;
 		}
+	}
+
+	#projects {
+		@extend %flex-column;
+		padding: 70px;
+		background-color: black;
+		align-items: center;
+		@media (--phone) {
+			padding: 50px;
+		}
+	}
+
+	#projects .title {
+		@extend %flex-row;
+		justify-content: right;
+		width: 100%;
+		max-width: var(--max-content-width);
+		@media (--tablet), (--phone) {
+			justify-content: center;
+		}
+	}
+
+	#projects .list {
+		@extend %flex-column;
+		width: 100%;
+		max-width: var(--max-content-width);
+		margin-top: 50px;
+		& a {
+			text-decoration: none;
+		}
+		& ul {
+			@extend %no-space, %flex-row;	
+			justify-content: space-between;
+			list-style-type: none;
+			color: white;
+			padding: 5px 0;
+			font: 1.5rem 'AUTHENTIC Sans';
+			background: linear-gradient(to bottom, white 0%, white 100%) repeat-y 0 100% / 0px 0px;
+			transition: background-size ease var(--transition-speed), color ease var(--transition-speed);
+			&:hover {
+				color: black;
+				background-size: 100% 100%;
+			}
+			@media (--tablet), (--phone) {
+				@extend %flex-column;
+			}
+			& li {
+				&:nth-child(2) {
+					text-align: right;
+					@media (--tablet), (--phone) {
+						text-align: left;
+					}
+				}
+				& span {
+					font: 1rem 'jgs_font';
+					color: var(--light-gray);
+					text-transform: uppercase;
+				}
+			}
+		}
+	}
+
+	footer {
+		@extend %flex-row;
+		justify-content: center;
+		background-color: black;
+		padding: 70px 70px 30px 70px;
+		@media (--phone) {
+			padding: 30px;
+		}
+		& p {
+			width: 100%;
+			max-width: var(--max-content-width);
+			color: white;
+			font: 1rem 'jgs_font';
+			text-transform: uppercase;
+			text-align: right;
+			@media (--tablet), (--phone) {
+				text-align: center;
+			}
+			@media (--phone) {
+				font-size: 0.8rem;
+			}
+		}		
 	}
 </style>
