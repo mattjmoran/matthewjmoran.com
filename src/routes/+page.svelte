@@ -239,6 +239,22 @@
 	</div>
 </div>
 
+<div id="about">
+	<div class="title">
+		<Header text="About" icon="paper-airplane" direction="right" x={95} />
+	</div>
+	<div class="content">
+		<ul>
+			<li><a href="https://github.com/mattjmoran" target="_blank">Github</a></li>
+			<li><a href="https://www.linkedin.com/in/matt-j-moran/" target="_blank">LinkedIn</a></li>
+			<li><a href="mailto:matt@matthewjmoran.com">Email</a></li>
+		</ul>
+		<p>
+			Matthew Moran is a Software Engineer with a strong background in software development, data visualization, automation testing, and leading projects across various industries. He holds a Bachelor of Science in Computer Science and Art from the University of Wisconsin–Madison. With experience in both contract and full-time roles, Matthew focuses on building innovative solutions and refining digital tools to enhance efficiency and performance. Beyond development, he also applies his design expertise to create intuitive and visually compelling user experiences.
+		</p>
+	</div>
+</div>
+
 <footer>
 	<p>© {new Date().getFullYear()} Matthew J. Moran. All rights reserved.</p>
 </footer>
@@ -569,6 +585,67 @@
 					color: var(--light-gray);
 					text-transform: uppercase;
 				}
+			}
+		}
+	}
+
+	#about {
+		@extend %flex-column;
+		padding: 70px;
+		background-color: black;
+		align-items: center;
+		@media (--phone) {
+			padding: 50px;
+		}
+	}
+
+	#about .title {
+		@extend %flex-row;
+		justify-content: left;
+		width: 100%;
+		max-width: var(--max-content-width);
+		@media (--tablet), (--phone) {
+			justify-content: center;
+		}
+	}
+
+	#about .content {
+		@extend %flex-row;
+		justify-content: space-between;
+		width: 100%;
+		max-width: var(--max-content-width);
+		margin-top: 50px;
+		gap: 50px;
+		color: white;
+		@media (--tablet), (--phone) {
+			@extend %flex-column;
+			flex-direction: column-reverse;
+		}
+		& ul {
+			@extend %no-space;
+			list-style-type: none;
+			flex: 1 1 0;
+			& li {
+				font: 1rem/150% 'jgs_font';
+				text-transform: uppercase;
+				& a {
+					color: white;
+					background: linear-gradient(to bottom, white 0%, white 100%) repeat-x 0 100% / 0px 0px;
+					transition: background-size ease var(--transition-speed), color ease var(--transition-speed);
+					&:hover {
+						color: black;
+						background-size: 100% 100%;
+					}
+				}
+			}
+		}
+		& p {
+			@extend %no-space;
+			flex: 2 1 0;
+			font: 300 1.5rem 'AUTHENTIC Sans';
+			color: white;
+			@media (--tablet), (--phone) {
+				font-size: 1.25rem;
 			}
 		}
 	}
