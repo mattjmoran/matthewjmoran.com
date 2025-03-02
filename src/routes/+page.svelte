@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Import Dependencies
-	import { blur, fly } from 'svelte/transition';
+	import { blur, fade, fly } from 'svelte/transition';
 	import { backOut } from 'svelte/easing';
 	import { Spring } from 'svelte/motion';
 	import { onMount } from 'svelte';
@@ -22,7 +22,11 @@
 			y: 25,
 			easing: backOut
 		}),
-		line: { duration: 1000 }
+		line: { duration: 1000 },
+		section: (order: number) => ({ 
+			duration: 1000,
+			delay: order * 250 + 500,
+		}),
 	};
 
 	// Title & Line Motion Effect
@@ -72,6 +76,14 @@
 	// Real-Time Clock (Chicago Time)
 	let time = $state<string>();
 
+	// Section Visibility
+	const sections = $state({
+		resume: false,
+		projects: false,
+		about: false
+	});
+
+	// On Mount
 	onMount(() => {
 		const updateTime = () => {
 			time = new Intl.DateTimeFormat('en-US', {
@@ -82,11 +94,35 @@
 				timeZone: 'America/Chicago'
 			}).format(new Date());
 		};
-
 		updateTime();
 		const interval = setInterval(updateTime, 1000);
 
-		return () => clearInterval(interval);
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach(entry => {
+					const sectionId = entry.target.id as keyof typeof sections;
+					if (sectionId in sections && entry.isIntersecting) {
+						sections[sectionId] = true;
+						observer.unobserve(entry.target);
+					}
+				});
+			},
+			{
+				threshold: 0
+			}
+		);
+
+		Object.keys(sections).forEach(sectionId => {
+			const section = document.querySelector(`#${sectionId}`);
+			if (section) {
+				observer.observe(section);
+			}
+		});
+
+		return () => {
+			clearInterval(interval);
+			observer.disconnect();
+		};
 	});
 </script>
 
@@ -164,95 +200,108 @@
 </div>
 
 <div id="resume">
-	<div class="title">
-		<Header text="Resume" icon="clipboard" direction="right" />
-	</div>
-	<div class="lists">
-		<ul>
-			<li class="header">Foundations</li>
-			<li>TypeScript</li>
-			<li>HTML + CSS</li>
-			<li>SvelteKit</li>
-			<li>Go</li>
-			<li>Python</li>
-			<li>Pandas + Matplotlib</li>
-			<li>Bash</li>
-			<li>Canvas</li>
-		</ul>
-		<ul>
-			<li class="header">Toolkit</li>
-			<li>Website Design</li>
-			<li>Illustrator</li>
-			<li>Photoshop</li>
-			<li>Figma</li>
-			<li>Data Analysis + Visualization</li>
-			<li>DevOps</li>
-			<li>QA + Testing</li>
-		</ul>
-		<ul>
-			<li class="header">Ethos</li>
-			<li>Accuracy</li>
-			<li>Structure</li>
-			<li>Transparency</li>
-			<li>Reliability</li>
-			<li>Integrity</li>
-			<li>Inquiry</li>
-			<li>Diligence</li>
-		</ul>
-	</div>
-	<div class="download">
-		<a href="/Matthew_J_Moran_Resume.pdf" download>
-			Download Resume
-		</a>
-	</div>
+	{#if sections.resume}
+		<div class="title" in:blur={animationParams.section(0)}>
+			<Header text="Resume" icon="clipboard" direction="right" />
+		</div>
+		<div class="lists">
+			<ul in:blur={animationParams.section(1)}>
+				<li class="header">Foundations</li>
+				<li>TypeScript</li>
+				<li>HTML + CSS</li>
+				<li>SvelteKit</li>
+				<li>Go</li>
+				<li>Python</li>
+				<li>Pandas + Matplotlib</li>
+				<li>Bash</li>
+				<li>Canvas</li>
+			</ul>
+			<ul in:blur={animationParams.section(2)}>
+				<li class="header">Toolkit</li>
+				<li>Website Design</li>
+				<li>Illustrator</li>
+				<li>Photoshop</li>
+				<li>Figma</li>
+				<li>Data Analysis + Visualization</li>
+				<li>DevOps</li>
+				<li>QA + Testing</li>
+			</ul>
+			<ul in:blur={animationParams.section(3)}>
+				<li class="header">Ethos</li>
+				<li>Accuracy</li>
+				<li>Structure</li>
+				<li>Transparency</li>
+				<li>Reliability</li>
+				<li>Integrity</li>
+				<li>Inquiry</li>
+				<li>Diligence</li>
+			</ul>
+		</div>
+		<div class="download" in:blur={animationParams.section(4)}>
+			<a href="/Matthew_J_Moran_Resume.pdf" download>
+				Download Resume
+			</a>
+		</div>
+	{/if}
 </div>
 
+
 <div id="projects">
-	<div class="title">
-		<Header text="Projects" icon="crane" direction="left" x={95} />
-	</div>
-	<div class="list">
-		<a href="https://github.com/JSA-Partners" target="_blank">
-			<ul>
-				<li>CATS <span>2023-Present</span></li>
-				<li>TypeScript, SvelteKit, Go</li>
-			</ul>
-		</a>
-		<a href="https://github.com/mattjmoran/dotfiles-macos" target="_blank">
-			<ul>
-				<li>dotfiles for macOS <span>2021-2023</span></li>
-				<li>Bash, Open Source</li>
-			</ul>
-		</a>
-		<a href="/">
-			<ul>
-				<li>Generative Art <span>2023</span></li>
-				<li>JavaScript, P5, Three.js</li>
-			</ul>
-		</a>
-		<a href="/">
-			<ul>
-				<li>Digital Color Theory <span>2019</span></li>
-				<li>Java, Processing</li>
-			</ul>
-		</a>
-	</div>
+	{#if sections.projects}
+		<div class="title" in:blur={animationParams.section(0)}>
+			<Header text="Projects" icon="crane" direction="left" x={95} />
+		</div>
+		<div class="list">
+			<a href="https://github.com/JSA-Partners" target="_blank">
+				<ul in:blur={animationParams.section(1)}>
+					<li>CATS <span>2023-Present</span></li>
+					<li>TypeScript, SvelteKit, Go</li>
+				</ul>
+			</a>
+			<a href="https://github.com/mattjmoran/dotfiles-macos" target="_blank">
+				<ul in:blur={animationParams.section(2)}>
+					<li>dotfiles for macOS <span>2021-2023</span></li>
+					<li>Bash, Open Source</li>
+				</ul>
+			</a>
+			<a href="/">
+				<ul in:blur={animationParams.section(3)}>
+					<li>Generative Art <span>2023</span></li>
+					<li>JavaScript, P5, Three.js</li>
+				</ul>
+			</a>
+			<a href="/">
+				<ul in:blur={animationParams.section(3)}>
+					<li>Digital Color Theory <span>2019</span></li>
+					<li>Java, Processing</li>
+				</ul>
+			</a>
+		</div>
+	{/if}
 </div>
 
 <div id="about">
-	<div class="title">
-		<Header text="About" icon="paper-airplane" direction="right" x={95} />
-	</div>
-	<div class="content">
-		<ul>
-			<li><a href="https://github.com/mattjmoran" target="_blank">Github</a></li>
-			<li><a href="https://www.linkedin.com/in/matt-j-moran/" target="_blank">LinkedIn</a></li>
-			<li><a href="mailto:matt@matthewjmoran.com">Email</a></li>
-		</ul>
-		<p>
-			Matthew Moran is a Software Engineer with a strong background in software development, data visualization, automation testing, and leading projects across various industries. He holds a Bachelor of Science in Computer Science and Art from the University of Wisconsin–Madison. With experience in both contract and full-time roles, Matthew focuses on building innovative solutions and refining digital tools to enhance efficiency and performance. Beyond development, he also applies his design expertise to create intuitive and visually compelling user experiences.
-		</p>
-	</div>
+	{#if sections.about}
+		<div class="title" in:blur={animationParams.section(0)}>
+			<Header text="About" icon="paper-airplane" direction="right" x={95} />
+		</div>
+		<div class="content">
+			<ul>
+				<li in:blur={animationParams.section(1)}>
+					<a href="https://github.com/mattjmoran" target="_blank">Github</a>
+				</li>
+				<li in:blur={animationParams.section(2)}>
+					<a href="https://www.linkedin.com/in/matt-j-moran/" target="_blank">LinkedIn</a>
+				</li>
+				<li in:blur={animationParams.section(3)}>
+					<a href="mailto:matt@matthewjmoran.com">Email</a>
+				</li>
+			</ul>
+			<p in:blur={animationParams.section(4)}>
+				Matthew Moran is a Software Engineer with a strong background in software development, data visualization, automation testing, and leading projects across various industries. He holds a Bachelor of Science in Computer Science and Art from the University of Wisconsin–Madison. With experience in both contract and full-time roles, Matthew focuses on building innovative solutions and refining digital tools to enhance efficiency and performance. Beyond development, he also applies his design expertise to create intuitive and visually compelling user experiences.
+			</p>
+		</div>
+	{/if}
 </div>
 
 <footer>
