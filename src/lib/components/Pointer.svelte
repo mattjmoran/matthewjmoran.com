@@ -39,7 +39,7 @@
 			isVisible = true;
 			if (target && target instanceof Element) {
 				const cursor = getComputedStyle(target).cursor;
-				isHovering = cursor === 'pointer';
+				isHovering = cursor === 'pointer' || cursor === 'auto';
 			}
 		}
 	};
