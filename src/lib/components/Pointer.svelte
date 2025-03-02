@@ -37,18 +37,10 @@
 		if (pointerType === 'mouse') {
 			follower.target = { x: pageX, y: pageY };
 			isVisible = true;
-
 			if (target && target instanceof Element) {
 				const cursor = getComputedStyle(target).cursor;
 				isHovering = cursor === 'pointer';
-				if (!isHovering) {
-					const tagName = target.tagName.toLowerCase();
-					isVisible = !['li', 'p'].includes(tagName) || !(target.textContent?.trim() ?? '');
-				}
 			}
-			
-		} else {
-			isVisible = false;
 		}
 	};
 
