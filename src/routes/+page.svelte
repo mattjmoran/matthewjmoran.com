@@ -200,7 +200,7 @@
 </div>
 
 <div id="resume">
-	{#if sections.resume}
+	{#key sections.resume}
 		<div class="title" in:blur={animationParams.section(0)}>
 			<Header text="Resume" icon="clipboard" direction="right" />
 		</div>
@@ -242,12 +242,12 @@
 				Download Resume
 			</a>
 		</div>
-	{/if}
+	{/key}
 </div>
 
 
 <div id="projects">
-	{#if sections.projects}
+	{#key sections.projects}
 		<div class="title" in:blur={animationParams.section(0)}>
 			<Header text="Projects" icon="crane" direction="left" x={95} />
 		</div>
@@ -277,31 +277,31 @@
 				</ul>
 			</a>
 		</div>
-	{/if}
+	{/key}
 </div>
 
 <div id="about">
-	{#if sections.about}
+	{#key sections.about}
 		<div class="title" in:blur={animationParams.section(0)}>
 			<Header text="About" icon="paper-airplane" direction="right" x={95} />
 		</div>
 		<div class="content">
 			<ul>
-				<li in:blur={animationParams.section(1)}>
+				<li in:blur={animationParams.section(2)}>
 					<a href="https://github.com/mattjmoran" target="_blank">Github</a>
 				</li>
-				<li in:blur={animationParams.section(2)}>
+				<li in:blur={animationParams.section(3)}>
 					<a href="https://www.linkedin.com/in/matt-j-moran/" target="_blank">LinkedIn</a>
 				</li>
-				<li in:blur={animationParams.section(3)}>
+				<li in:blur={animationParams.section(4)}>
 					<a href="mailto:matt@matthewjmoran.com">Email</a>
 				</li>
 			</ul>
-			<p in:blur={animationParams.section(4)}>
+			<p in:blur={animationParams.section(1)}>
 				Matthew Moran is a Software Engineer with a strong background in software development, data visualization, automation testing, and leading projects across various industries. He holds a Bachelor of Science in Computer Science and Art from the University of Wisconsin–Madison. With experience in both contract and full-time roles, Matthew focuses on building innovative solutions and refining digital tools to enhance efficiency and performance. Beyond development, he also applies his design expertise to create intuitive and visually compelling user experiences.
 			</p>
 		</div>
-	{/if}
+	{/key}
 </div>
 
 <footer>
