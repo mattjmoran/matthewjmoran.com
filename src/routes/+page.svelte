@@ -248,7 +248,7 @@
 {#key sections.projects}
 	<div id="projects" class:hidden={!sections.projects}>
 		<div class="title" in:blur={animationParams.section(0)}>
-			<Header text="Projects" icon="crane" direction="left" x={95} />
+			<Header text="Projects" icon="crane" direction="left" shift="95%" />
 		</div>
 		<div class="list">
 			<a href="https://github.com/JSA-Partners" target="_blank">
@@ -282,7 +282,7 @@
 {#key sections.about}
 	<div id="about" class:hidden={!sections.about} style="background-color: black;">
 		<div class="title" in:blur={animationParams.section(0)}>
-			<Header text="About" icon="paper-airplane" direction="right" x={95} />
+			<Header text="About" icon="paper-airplane" direction="right" shift="95%" />
 		</div>
 		<div class="content">
 			<ul>

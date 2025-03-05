@@ -1,27 +1,33 @@
 <script lang="ts">
+	// Components
 	import Icon from '$lib/components/Icon.svelte';
 
+	// Props
 	let {
 		text,
 		icon,
 		direction = 'right',
-		x = 75
+		shift = '75%'
 	}: {
 		text: string;
 		icon: string;
 		direction?: 'left' | 'right';
-		x?: number;
+		shift?: string;
 	} = $props();
 </script>
 
 <div
 	class="header"
-  style={direction === 'left' ? `margin-left: calc(0.${x} * var(--size))` : `margin-right: calc(0.${x} * var(--size))`}
+  style={
+	direction === 'left' 
+		? `margin-left: calc(${shift} * var(--icon-size))` 
+		: `margin-right: calc(${shift} * var(--icon-size))`
+	}
 >
 	<h1>{text}</h1>
 	<div
 		class="icon-wrapper {direction}"
-		style="transform: translateX({x * (direction === 'right' ? 1 : -1)}%)"
+		style="transform: translateX(calc({shift} * {(direction === 'right' ? 1 : -1)})"
 	>
 		<Icon name={icon} size="100%" fill="white" />
 	</div>
@@ -31,18 +37,25 @@
 	@import '$lib/styles/media-queries.pcss';
 
 	:root {
-		--size: 64px;
+		--icon-size: 64px;
+		--font-size: 10rem;
 
 		@media (--laptop) {
-			--size: calc(64px * 0.9)
+			--mult: 0.9;
+			--icon-size: calc(64px * var(--mult));
+			--font-size: calc(10rem * var(--mult));
 		}
 
 		@media (--tablet) {
-			--size: calc(64px * 0.65)
+			--mult: 0.8;
+			--icon-size: calc(64px * var(--mult));
+			--font-size: calc(10rem * var(--mult));
 		}
 
 		@media (--phone) {
-			--size: calc(64px * 0.5)
+			--mult: 0.5;
+			--icon-size: calc(64px * var(--mult));
+			--font-size: calc(10rem * var(--mult));
 		}
 	}
 
@@ -56,8 +69,8 @@
 		position: absolute;
 		bottom: 0px;
 		z-index: 1;
-		width: var(--size);
-		height: var(--size);
+		width: var(--icon-size);
+		height: var(--icon-size);
 	}
 
 	.icon-wrapper.left {
@@ -76,23 +89,8 @@
 		margin: 0;
 		font-family: 'Mars Display';
 		font-weight: bold;
-		font-size: 10rem;
-		line-height: 10rem;
+		font-size: var(--font-size);
+		line-height: var(--font-size);
 		text-transform: capitalize;
-
-		@media (--laptop) {
-			font-size: 9rem;
-			line-height: 9rem;
-		}
-
-		@media (--tablet) {
-			font-size: 6.5rem;
-			line-height: 6.5rem;
-		}
-
-		@media (--phone) {
-			font-size: 5rem;
-			line-height: 5rem;
-		}
 	}
 </style>
