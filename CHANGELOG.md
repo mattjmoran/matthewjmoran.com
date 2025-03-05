@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.0](https://github.com/mattjmoran/matthewjmoran.com/compare/v1.0.1...v1.1.0) (2025-03-05)
+
+
+### Features
+
+* swap resume and projects sections and adjust spacing between sections ([0bf6f0f](https://github.com/mattjmoran/matthewjmoran.com/commit/0bf6f0fa87b3d06f5a81ed9db03572831166ea75))
+
+
+### Bug Fixes
+
+* adjust tablet header styles for improved responsiveness ([4c6dcde](https://github.com/mattjmoran/matthewjmoran.com/commit/4c6dcdedf96d161247cdd13dcaca510372238b69))
+
 ## [1.0.1](https://github.com/mattjmoran/matthewjmoran.com/compare/v1.0.0...v1.0.1) (2025-03-05)
 
 
