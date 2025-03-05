@@ -597,9 +597,6 @@
 				color: black;
 				background-size: 100% 100%;
 			}
-			&::after {
-				content: ' ***';
-			}
 		}
 		@media (--tablet), (--phone) {
 			justify-content: left;
@@ -723,7 +720,7 @@
 		& p {
 			@extend %no-space;
 			flex: 2 1 0;
-			font: 300 1.5rem 'AUTHENTIC Sans';
+			font: 300 1.5rem/150% 'AUTHENTIC Sans';
 			color: white;
 			@media (--tablet), (--phone) {
 				font-size: 1.25rem;
