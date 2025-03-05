@@ -25,7 +25,7 @@
 		line: { duration: 1000 },
 		section: (order: number) => ({ 
 			duration: 1000,
-			delay: order * 250 + 500,
+			delay: order * 250 + 250,
 		}),
 	};
 
@@ -108,7 +108,7 @@
 				});
 			},
 			{
-				threshold: 0
+				threshold: 0.25
 			}
 		);
 
@@ -165,7 +165,7 @@
 					<h1 style="justify-content: center; z-index: 1;" in:fly={animationParams.title(1)}>J</h1>
 					<h1 style="justify-content: right;" in:fly={animationParams.title(2)}>M</h1>
 					<svg class="line" fill="none" viewBox="0 0 735 403" xmlns="http://www.w3.org/2000/svg">
-						<path d="M6 5c245 69 284 260 428 259 137-1 243-95 128-140-119-46-81 158 0 204 65 38 73 36 168 69" stroke="#5f0" stroke-linecap="round" in:blur={animationParams.line}/>
+						<path d="M6 5c245 69 284 260 428 259 137-1 243-95 128-140-119-46-81 158 0 204 65 38 73 36 168 69" stroke="#55ff00" stroke-linecap="round" in:blur={animationParams.line}/>
 					</svg>
 				{/if}
 			{/if}
@@ -199,55 +199,54 @@
 	</div>
 </div>
 
-<div id="resume">
-	{#key sections.resume}
-		<div class="title" in:blur={animationParams.section(0)}>
-			<Header text="Resume" icon="clipboard" direction="right" />
-		</div>
-		<div class="lists">
-			<ul in:blur={animationParams.section(1)}>
-				<li class="header">Foundations</li>
-				<li>TypeScript</li>
-				<li>HTML + CSS</li>
-				<li>SvelteKit</li>
-				<li>Go</li>
-				<li>Python</li>
-				<li>Pandas + Matplotlib</li>
-				<li>Bash</li>
-				<li>Canvas</li>
-			</ul>
-			<ul in:blur={animationParams.section(2)}>
-				<li class="header">Toolkit</li>
-				<li>Website Design</li>
-				<li>Illustrator</li>
-				<li>Photoshop</li>
-				<li>Figma</li>
-				<li>Data Analysis + Visualization</li>
-				<li>DevOps</li>
-				<li>QA + Testing</li>
-			</ul>
-			<ul in:blur={animationParams.section(3)}>
-				<li class="header">Ethos</li>
-				<li>Accuracy</li>
-				<li>Structure</li>
-				<li>Transparency</li>
-				<li>Reliability</li>
-				<li>Integrity</li>
-				<li>Inquiry</li>
-				<li>Diligence</li>
-			</ul>
-		</div>
-		<div class="download" in:blur={animationParams.section(4)}>
-			<a href="/Matthew_J_Moran_Resume.pdf" download>
-				Download Resume
-			</a>
-		</div>
-	{/key}
-</div>
+{#key sections.resume}
+	<div id="resume" class:hidden={!sections.resume}>
+			<div class="title" in:blur={animationParams.section(0)}>
+				<Header text="Resume" icon="clipboard" direction="right" />
+			</div>
+			<div class="lists">
+				<ul in:blur={animationParams.section(1)}>
+					<li class="header">Foundations</li>
+					<li>TypeScript</li>
+					<li>HTML + CSS</li>
+					<li>SvelteKit</li>
+					<li>Go</li>
+					<li>Python</li>
+					<li>Pandas + Matplotlib</li>
+					<li>Bash</li>
+					<li>Canvas</li>
+				</ul>
+				<ul in:blur={animationParams.section(2)}>
+					<li class="header">Toolkit</li>
+					<li>Website Design</li>
+					<li>Illustrator</li>
+					<li>Photoshop</li>
+					<li>Figma</li>
+					<li>Data Analysis + Visualization</li>
+					<li>DevOps</li>
+					<li>QA + Testing</li>
+				</ul>
+				<ul in:blur={animationParams.section(3)}>
+					<li class="header">Ethos</li>
+					<li>Accuracy</li>
+					<li>Structure</li>
+					<li>Transparency</li>
+					<li>Reliability</li>
+					<li>Integrity</li>
+					<li>Inquiry</li>
+					<li>Diligence</li>
+				</ul>
+			</div>
+			<div class="download" in:blur={animationParams.section(4)}>
+				<a href="/Matthew_J_Moran_Resume.pdf" download>
+					Download Resume
+				</a>
+			</div>
+	</div>
+{/key}
 
-
-<div id="projects">
-	{#key sections.projects}
+{#key sections.projects}
+	<div id="projects" class:hidden={!sections.projects}>
 		<div class="title" in:blur={animationParams.section(0)}>
 			<Header text="Projects" icon="crane" direction="left" x={95} />
 		</div>
@@ -277,11 +276,11 @@
 				</ul>
 			</a>
 		</div>
-	{/key}
-</div>
+	</div>
+{/key}
 
-<div id="about">
-	{#key sections.about}
+{#key sections.about}
+	<div id="about" class:hidden={!sections.about} style="background-color: black;">
 		<div class="title" in:blur={animationParams.section(0)}>
 			<Header text="About" icon="paper-airplane" direction="right" x={95} />
 		</div>
@@ -301,8 +300,8 @@
 				Matthew Moran is a Software Engineer with a strong background in software development, data visualization, automation testing, and leading projects across various industries. He holds a Bachelor of Science in Computer Science and Art from the University of Wisconsin–Madison. With experience in both contract and full-time roles, Matthew focuses on building innovative solutions and refining digital tools to enhance efficiency and performance. Beyond development, he also applies his design expertise to create intuitive and visually compelling user experiences.
 			</p>
 		</div>
-	{/key}
-</div>
+	</div>
+{/key}
 
 <footer>
 	<p>© {new Date().getFullYear()} Matthew J. Moran. All rights reserved.</p>
@@ -317,6 +316,14 @@
 		--title-height-percent: 0.75;
 		--transition-height: max(25vh, 100px);
 		--transition-speed: 250ms;
+	}
+
+	.hidden {
+		& * {
+			visibility: hidden;
+			user-select: none;
+			cursor: default;
+		}
 	}
 
 	#intro {
