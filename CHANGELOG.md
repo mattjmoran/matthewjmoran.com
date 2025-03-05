@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.1](https://github.com/mattjmoran/matthewjmoran.com/compare/v1.0.0...v1.0.1) (2025-03-05)
+
+
+### Bug Fixes
+
+* add title to layout and update site name in manifest.json ([5e02ba3](https://github.com/mattjmoran/matthewjmoran.com/commit/5e02ba34fabe16350acdd358995113323356f670))
+* adjust delays and section visibility for animated sections ([012c5cb](https://github.com/mattjmoran/matthewjmoran.com/commit/012c5cb65add34757d2d668ef6c8092da57fd894))
+* remove unnecessary pseudo-element and adjust font line height ([1302d01](https://github.com/mattjmoran/matthewjmoran.com/commit/1302d014850c205c2be9e1923e5839dfc70ea156))
+
 ## 1.0.0 (2025-03-02)
 
 
