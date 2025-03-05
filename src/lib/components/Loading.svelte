@@ -1,18 +1,29 @@
 <script lang="ts">
+	// Import Dependencies
 	import { fade } from 'svelte/transition';
+
+	// Custom Utilities
 	import animate from '$lib/utils/animate.svelte';
+
+	// Components
 	import Icon from '$lib/components/Icon.svelte';
 
-	let { loading }: { loading: boolean } = $props();
+	// Props
+	let {
+		loading
+	}: {
+		loading: boolean;
+	} = $props();
 
+	// Loading Animation Settings
 	const loadingIcons = ['computer', 'compass', 'lightbulb'];
-
-	let transitionDuration = animate.delay * 0.1;
-	let transitionDelay = animate.delay * 0.9;
+	const loadingDuration = animate.delay * 0.1;
+	const loadingDelay = animate.delay * 0.9;
+	const loadingParams = { duration: loadingDuration, delay: loadingDelay };
 </script>
 
 {#if loading}
-	<div class="loading" transition:fade={{ duration: transitionDuration, delay: transitionDelay }}>
+	<div class="loading" transition:fade={loadingParams}>
 		{#each loadingIcons as icon, index}
 			<div class="icon" style="animation-delay: {200 * index}ms">
 				<Icon name={icon} size="100px" fill="#fff" />
@@ -24,7 +35,7 @@
 <style lang="postcss">
 	@import '$lib/styles/extends.pcss';
 
-	@keyframes switchIcons {
+	@keyframes iconLoop {
 		0% {
 			opacity: 1;
 		}
@@ -52,7 +63,7 @@
 
 	.icon {
 		position: absolute;
-		animation: switchIcons 600ms steps(1, end) infinite;
+		animation: iconLoop 600ms steps(1, end) infinite;
 		opacity: 0;
 	}
 

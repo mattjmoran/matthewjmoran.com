@@ -1,4 +1,5 @@
 <script lang="ts">
+	// Props
 	let {
 		name,
 		size = 32,
@@ -12,10 +13,9 @@
 
 <svg width={size} height={size} {fill} shape-rendering="crispEdges">
 	<use href={`#${name}`} />
-
 	<defs>
-		<!-- mouse -->
 		{#if name === 'mouse'}
+			<!-- mouse -->
 			<symbol id="mouse" viewBox="0 0 32 32">
 				<g>
 					<animate
@@ -750,9 +750,8 @@
 					<rect x="23" y="31" width="1" height="1" />
 				</g>
 			</symbol>
-
-			<!-- clipboard -->
 		{:else if name === 'clipboard'}
+			<!-- clipboard -->
 			<symbol id="clipboard" viewBox="0 0 32 32">
 				<rect x="11" y="0" width="1" height="1" />
 				<rect x="20" y="0" width="1" height="1" />
@@ -951,9 +950,8 @@
 				<rect x="21" y="30" width="1" height="1" />
 				<rect x="20" y="31" width="1" height="1" />
 			</symbol>
-
-			<!-- compass -->
 		{:else if name === 'compass'}
+			<!-- compass -->
 			<symbol id="compass" viewBox="0 0 32 32">
 				<rect x="15" y="0" width="1" height="1" />
 				<rect x="16" y="0" width="1" height="1" />
@@ -1119,9 +1117,8 @@
 				<rect x="11" y="31" width="1" height="1" />
 				<rect x="20" y="31" width="1" height="1" />
 			</symbol>
-
-			<!-- computer -->
 		{:else if name === 'computer'}
+			<!-- computer -->
 			<symbol id="computer" viewBox="0 0 32 32">
 				<rect x="21" y="0" width="1" height="1" />
 				<rect x="24" y="0" width="1" height="1" />
@@ -1426,9 +1423,8 @@
 				<rect x="23" y="31" width="1" height="1" />
 				<rect x="27" y="31" width="1" height="1" />
 			</symbol>
-
-			<!-- crane -->
 		{:else if name === 'crane'}
+			<!-- crane -->
 			<symbol id="crane" viewBox="0 0 32 32">
 				<rect x="20" y="0" width="1" height="1" />
 				<rect x="21" y="0" width="1" height="1" />
@@ -1635,9 +1631,8 @@
 				<rect x="24" y="31" width="1" height="1" />
 				<rect x="25" y="31" width="1" height="1" />
 			</symbol>
-
-			<!-- lightbulb -->
 		{:else if name === 'lightbulb'}
+			<!-- lightbulb -->
 			<symbol id="lightbulb" viewBox="0 0 32 32">
 				<rect x="13" y="2" width="1" height="1" />
 				<rect x="14" y="2" width="1" height="1" />
@@ -1746,9 +1741,8 @@
 				<rect x="16" y="29" width="1" height="1" />
 				<rect x="17" y="29" width="1" height="1" />
 			</symbol>
-
-			<!-- paper-airplane -->
 		{:else if name === 'paper-airplane'}
+			<!-- paper-airplane -->
 			<symbol id="paper-airplane" viewBox="0 0 32 32">
 				<rect x="1" y="6" width="1" height="1" />
 				<rect x="2" y="6" width="1" height="1" />
@@ -1853,9 +1847,8 @@
 				<rect x="24" y="26" width="1" height="1" />
 				<rect x="25" y="26" width="1" height="1" />
 			</symbol>
-
-			<!-- click -->
 		{:else if name === 'click'}
+			<!-- click -->
 			<symbol id="click" viewBox="0 0 16 16">
 				<rect x="0" y="3" width="1" height="1" />
 				<rect x="1" y="3" width="1" height="1" />
