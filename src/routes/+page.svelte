@@ -82,8 +82,8 @@
 
 	// Section Visibility
 	const sections = $state({
-		resume: false,
 		projects: false,
+		resume: false,
 		about: false
 	});
 
@@ -140,10 +140,10 @@
 					<Icon name="click" size={32} fill="black" />
 				</li>
 				<li>
-					<a href="/#resume">Resume</a>
+					<a href="/#projects">Projects</a>
 				</li>
 				<li>
-					<a href="/#projects">Projects</a>
+					<a href="/#resume">Resume</a>
 				</li>
 				<li>
 					<a href="/#about">About</a>
@@ -213,10 +213,44 @@
 	</div>
 </div>
 
+{#key sections.projects}
+	<div id="projects" class:hidden={!sections.projects}>
+		<div class="title" in:blur={animationParams.section(0)}>
+			<Header text="Projects" icon="crane" direction="left" shift="95%" />
+		</div>
+		<div class="list">
+			<a href="https://github.com/JSA-Partners" target="_blank">
+				<ul in:blur={animationParams.section(1)}>
+					<li>CATS <span>2023-Present</span></li>
+					<li>TypeScript, SvelteKit, Go</li>
+				</ul>
+			</a>
+			<a href="https://github.com/mattjmoran/dotfiles-macos" target="_blank">
+				<ul in:blur={animationParams.section(2)}>
+					<li>dotfiles for macOS <span>2021-2023</span></li>
+					<li>Bash, Open Source</li>
+				</ul>
+			</a>
+			<a href="/">
+				<ul in:blur={animationParams.section(3)}>
+					<li>Generative Art <span>2023</span></li>
+					<li>JavaScript, P5, Three.js</li>
+				</ul>
+			</a>
+			<a href="/">
+				<ul in:blur={animationParams.section(3)}>
+					<li>Digital Color Theory <span>2019</span></li>
+					<li>Java, Processing</li>
+				</ul>
+			</a>
+		</div>
+	</div>
+{/key}
+
 {#key sections.resume}
 	<div id="resume" class:hidden={!sections.resume}>
 		<div class="title" in:blur={animationParams.section(0)}>
-			<Header text="Resume" icon="clipboard" direction="right" />
+			<Header text="Resume" icon="clipboard" direction="right" shift="80%" />
 		</div>
 		<div class="lists">
 			<ul in:blur={animationParams.section(1)}>
@@ -257,46 +291,21 @@
 	</div>
 {/key}
 
-{#key sections.projects}
-	<div id="projects" class:hidden={!sections.projects}>
-		<div class="title" in:blur={animationParams.section(0)}>
-			<Header text="Projects" icon="crane" direction="left" shift="95%" />
-		</div>
-		<div class="list">
-			<a href="https://github.com/JSA-Partners" target="_blank">
-				<ul in:blur={animationParams.section(1)}>
-					<li>CATS <span>2023-Present</span></li>
-					<li>TypeScript, SvelteKit, Go</li>
-				</ul>
-			</a>
-			<a href="https://github.com/mattjmoran/dotfiles-macos" target="_blank">
-				<ul in:blur={animationParams.section(2)}>
-					<li>dotfiles for macOS <span>2021-2023</span></li>
-					<li>Bash, Open Source</li>
-				</ul>
-			</a>
-			<a href="/">
-				<ul in:blur={animationParams.section(3)}>
-					<li>Generative Art <span>2023</span></li>
-					<li>JavaScript, P5, Three.js</li>
-				</ul>
-			</a>
-			<a href="/">
-				<ul in:blur={animationParams.section(3)}>
-					<li>Digital Color Theory <span>2019</span></li>
-					<li>Java, Processing</li>
-				</ul>
-			</a>
-		</div>
-	</div>
-{/key}
-
 {#key sections.about}
 	<div id="about" class:hidden={!sections.about} style="background-color: black;">
 		<div class="title" in:blur={animationParams.section(0)}>
-			<Header text="About" icon="paper-airplane" direction="right" shift="95%" />
+			<Header text="About" icon="paper-airplane" direction="left" shift="105%" />
 		</div>
 		<div class="content">
+			<p in:blur={animationParams.section(1)}>
+				Matthew Moran is a Software Engineer with a strong background in software development, data
+				visualization, automation testing, and leading projects across various industries. He holds
+				a Bachelor of Science in Computer Science and Art from the University of Wisconsin–Madison.
+				With experience in both contract and full-time roles, Matthew focuses on building innovative
+				solutions and refining digital tools to enhance efficiency and performance. Beyond
+				development, he also applies his design expertise to create intuitive and visually
+				compelling user experiences.
+			</p>
 			<ul>
 				<li in:blur={animationParams.section(2)}>
 					<a href="https://github.com/mattjmoran" target="_blank">Github</a>
@@ -308,15 +317,6 @@
 					<a href="mailto:matt@matthewjmoran.com">Email</a>
 				</li>
 			</ul>
-			<p in:blur={animationParams.section(1)}>
-				Matthew Moran is a Software Engineer with a strong background in software development, data
-				visualization, automation testing, and leading projects across various industries. He holds
-				a Bachelor of Science in Computer Science and Art from the University of Wisconsin–Madison.
-				With experience in both contract and full-time roles, Matthew focuses on building innovative
-				solutions and refining digital tools to enhance efficiency and performance. Beyond
-				development, he also applies his design expertise to create intuitive and visually
-				compelling user experiences.
-			</p>
 		</div>
 	</div>
 {/key}
@@ -679,7 +679,7 @@
 
 	#about .title {
 		@extend %flex-row;
-		justify-content: left;
+		justify-content: right;
 		width: 100%;
 		max-width: var(--max-content-width);
 		@media (--tablet), (--phone) {
@@ -734,11 +734,12 @@
 		@extend %flex-row;
 		justify-content: center;
 		background-color: black;
-		padding: 70px 70px 30px 70px;
+		padding: 30px 70px;
 		@media (--phone) {
-			padding: 30px;
+			padding: 30px 50px;
 		}
 		& p {
+			@extend %no-space;
 			width: 100%;
 			max-width: var(--max-content-width);
 			color: white;
