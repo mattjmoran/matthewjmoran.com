@@ -45,7 +45,7 @@
 		}
 
 		@media (--tablet) {
-			--mult: 0.8;
+			--mult: 0.65;
 			--icon-size: calc(64px * var(--mult));
 			--font-size: calc(10rem * var(--mult));
 		}
