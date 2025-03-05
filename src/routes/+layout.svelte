@@ -1,6 +1,11 @@
 <script lang="ts">
+	// Import Dependencies
 	import { onMount } from 'svelte';
+
+	// Custom Utilities
 	import animate from '$lib/utils/animate.svelte';
+
+	// Components
 	import Loading from '$lib/components/Loading.svelte';
 	import Pointer from '$lib/components/Pointer.svelte';
 
@@ -14,10 +19,11 @@
 	// https://svelte.dev/docs/kit/routing#layout-layout.sveltes
 	let { children } = $props();
 
+	// Once the component is mounted, set the loading state to false
+	// and trigger the animations after a delay.
 	let loading = $state(true);
-	
 	onMount(() => {
-		loading = false;	
+		loading = false;
 		setTimeout(() => {
 			animate.trigger = true;
 		}, animate.delay);
