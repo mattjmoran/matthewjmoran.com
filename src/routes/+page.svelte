@@ -39,38 +39,40 @@
 
 		const elements = [
 			{ selector: '#intro .title', scale: 1, maxOffset: 25 },
-			{ selector: '#intro .line', scale: 2, maxOffset: 25, offsetX: '-50%' }
+			{ selector: '#intro .line', scale: 2, maxOffset: 25, offset: '-50%' }
 		];
 
-		elements.forEach(({ selector, scale, maxOffset, offsetX = '0px' }) => {
+		elements.forEach(({ selector, scale, maxOffset, offset = '0px' }) => {
 			const element = document.querySelector(selector) as HTMLElement | SVGSVGElement;
 			if (!element) return;
 
 			const { left, top, width, height } = element.getBoundingClientRect();
-			let offsetXValue = ((pointer.x - left) / width - 0.5) * (innerWidth / 100) * scale;
-			let offsetYValue = ((pointer.y - top) / height - 0.5) * (innerHeight / 100) * scale;
+			const offsetX = ((pointer.x - left) / width - 0.5) * (innerWidth / 100) * scale;
+			const offsetY = ((pointer.y - top) / height - 0.5) * (innerHeight / 100) * scale;
 
 			smoothMotion.target = {
-				x: Math.max(-maxOffset, Math.min(maxOffset, offsetXValue)) || 0,
-				y: Math.max(-maxOffset, Math.min(maxOffset, offsetYValue)) || 0
+				x: Math.max(-maxOffset, Math.min(maxOffset, offsetX)) || 0,
+				y: Math.max(-maxOffset, Math.min(maxOffset, offsetY)) || 0
 			};
 
-			element.style.transform = `translateX(calc(${offsetX} + ${smoothMotion.current.x}px)) translateY(${smoothMotion.current.y}px)`;
+			const transformX = `translateX(calc(${offset} + ${smoothMotion.current.x}px))`;
+			const transformY = `translateY(${smoothMotion.current.y}px)`;
+			element.style.transform = `${transformX} ${transformY}`;
 		});
 	});
 
 	// SVG Section Transition
 	const randomSeed = Math.random();
-	let svgContainer = $state({ width: 1, height: 1 });
+	const svgContainer = $state({ width: 1, height: 1 });
 
-	let svgGrid = $derived({
+	const svgGrid = $derived({
 		height: Math.ceil(svgContainer.height / 50),
 		width: Math.ceil(
 			(svgContainer.width * Math.ceil(svgContainer.height / 50)) / svgContainer.height
 		)
 	});
 
-	let svgCells = $derived({
+	const svgCells = $derived({
 		x: [...Array(svgGrid.width).keys()],
 		y: [...Array(svgGrid.height).keys()]
 	});
