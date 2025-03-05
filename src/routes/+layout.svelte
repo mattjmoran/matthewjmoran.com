@@ -30,6 +30,10 @@
 	});
 </script>
 
+<svelte:head>
+	<title>Matthew J. Moran</title>
+</svelte:head>
+
 <Loading {loading} />
 <Pointer />
 
