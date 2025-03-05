@@ -18,16 +18,14 @@
 
 <div
 	class="header"
-  style={
-	direction === 'left' 
-		? `margin-left: calc(${shift} * var(--icon-size))` 
-		: `margin-right: calc(${shift} * var(--icon-size))`
-	}
+	style={direction === 'left'
+		? `margin-left: calc(${shift} * var(--icon-size))`
+		: `margin-right: calc(${shift} * var(--icon-size))`}
 >
 	<h1>{text}</h1>
 	<div
 		class="icon-wrapper {direction}"
-		style="transform: translateX(calc({shift} * {(direction === 'right' ? 1 : -1)})"
+		style="transform: translateX(calc({shift} * {direction === 'right' ? 1 : -1})"
 	>
 		<Icon name={icon} size="100%" fill="white" />
 	</div>

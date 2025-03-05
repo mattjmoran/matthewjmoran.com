@@ -1,6 +1,6 @@
 const animate = $state({
-  trigger: false,
-  delay: 2000,
+	trigger: false,
+	delay: 2000
 });
 
 export default animate;

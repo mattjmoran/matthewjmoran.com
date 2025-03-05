@@ -8,24 +8,17 @@
 	let isVisible = $state(false);
 	let isHovering = $state(false);
 
-	let follower = $state(
-		new Spring(
-			{ x: 0, y: 0 },
-			{ stiffness: 0.1, damping: 0.5 }
-		)
-	);
+	let follower = $state(new Spring({ x: 0, y: 0 }, { stiffness: 0.1, damping: 0.5 }));
 
 	// Utility Functions
 	const normalize = (value: number, max: number, min: number) => (value - min) / (max - min);
 
 	// Derived Values
-	let distance = $derived( 
+	let distance = $derived(
 		Math.hypot(follower.current.x - follower.target.x, follower.current.y - follower.target.y)
 	);
 
-	let borderWidth = $derived( 
-		6 * Math.max(1 - normalize(distance, 100, 0), 0) + 2
-	);
+	let borderWidth = $derived(6 * Math.max(1 - normalize(distance, 100, 0), 0) + 2);
 
 	// Event Handlers
 	const onpointermove = (event: PointerEvent) => {
@@ -47,7 +40,6 @@
 	const onscroll = () => (isVisible = false);
 	const onpointerleave = () => (isVisible = false);
 </script>
-
 
 <svelte:window {onscroll} />
 <svelte:body {onpointermove} {onpointerleave} />

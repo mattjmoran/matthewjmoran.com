@@ -1,10 +1,10 @@
 <script lang="ts">
 	// Import Dependencies
-	import { blur, fade, fly } from 'svelte/transition';
+	import { blur, fly } from 'svelte/transition';
 	import { backOut } from 'svelte/easing';
 	import { Spring } from 'svelte/motion';
 	import { onMount } from 'svelte';
-	
+
 	// Custom Utilities
 	import animate from '$lib/utils/animate.svelte';
 	import pointer from '$lib/utils/pointer.svelte';
@@ -23,10 +23,10 @@
 			easing: backOut
 		}),
 		line: { duration: 1000 },
-		section: (order: number) => ({ 
+		section: (order: number) => ({
 			duration: 1000,
-			delay: order * 250 + 250,
-		}),
+			delay: order * 250 + 250
+		})
 	};
 
 	// Title & Line Motion Effect
@@ -47,8 +47,8 @@
 			if (!element) return;
 
 			const { left, top, width, height } = element.getBoundingClientRect();
-			let offsetXValue = (((pointer.x - left) / width) - 0.5) * (innerWidth / 100) * scale;
-			let offsetYValue = (((pointer.y - top) / height) - 0.5) * (innerHeight / 100) * scale;
+			let offsetXValue = ((pointer.x - left) / width - 0.5) * (innerWidth / 100) * scale;
+			let offsetYValue = ((pointer.y - top) / height - 0.5) * (innerHeight / 100) * scale;
 
 			smoothMotion.target = {
 				x: Math.max(-maxOffset, Math.min(maxOffset, offsetXValue)) || 0,
@@ -65,7 +65,9 @@
 
 	let svgGrid = $derived({
 		height: Math.ceil(svgContainer.height / 50),
-		width: Math.ceil((svgContainer.width * Math.ceil(svgContainer.height / 50)) / svgContainer.height)
+		width: Math.ceil(
+			(svgContainer.width * Math.ceil(svgContainer.height / 50)) / svgContainer.height
+		)
 	});
 
 	let svgCells = $derived({
@@ -99,7 +101,7 @@
 
 		const observer = new IntersectionObserver(
 			(entries) => {
-				entries.forEach(entry => {
+				entries.forEach((entry) => {
 					const sectionId = entry.target.id as keyof typeof sections;
 					if (sectionId in sections && entry.isIntersecting) {
 						sections[sectionId] = true;
@@ -112,7 +114,7 @@
 			}
 		);
 
-		Object.keys(sections).forEach(sectionId => {
+		Object.keys(sections).forEach((sectionId) => {
 			const section = document.querySelector(`#${sectionId}`);
 			if (section) {
 				observer.observe(section);
@@ -126,7 +128,7 @@
 	});
 </script>
 
-<svelte:window bind:innerWidth={innerWidth} bind:innerHeight={innerHeight} />
+<svelte:window bind:innerWidth bind:innerHeight />
 
 <div id="intro">
 	<div class="content">
@@ -149,25 +151,35 @@
 		<div class="title">
 			{#if innerWidth >= 768}
 				{#if animate.trigger}
-					<h1 style="justify-content: left;" in:fly={animationParams.title(0)}>Matthew</h1>			
+					<h1 style="justify-content: left;" in:fly={animationParams.title(0)}>Matthew</h1>
 					<h1 style="justify-content: right;">
 						<span in:fly={animationParams.title(1)}>J. </span>
 						<span style="z-index: 1;" in:fly={animationParams.title(2)}>Moran</span>
 					</h1>
-					<h2 style="justify-content: right;" in:fly={animationParams.title(3)}>Developer & Designer</h2>
+					<h2 style="justify-content: right;" in:fly={animationParams.title(3)}>
+						Developer & Designer
+					</h2>
 					<svg class="line" fill="none" viewBox="0 0 808 108" xmlns="http://www.w3.org/2000/svg">
-						<path d="M4 102c27 6 151-1 277-21 157-25 195 39 274 10 75-26 64-97 14-86-72 17 11 86 71 86 47 0 101-12 164-19" stroke="#55ff00" stroke-linecap="round" in:blur={animationParams.line}/>
+						<path
+							d="M4 102c27 6 151-1 277-21 157-25 195 39 274 10 75-26 64-97 14-86-72 17 11 86 71 86 47 0 101-12 164-19"
+							stroke="#55ff00"
+							stroke-linecap="round"
+							in:blur={animationParams.line}
+						/>
 					</svg>
 				{/if}
-			{:else}
-				{#if animate.trigger}
-					<h1 style="justify-content: left;" in:fly={animationParams.title(0)}>M</h1>
-					<h1 style="justify-content: center; z-index: 1;" in:fly={animationParams.title(1)}>J</h1>
-					<h1 style="justify-content: right;" in:fly={animationParams.title(2)}>M</h1>
-					<svg class="line" fill="none" viewBox="0 0 735 403" xmlns="http://www.w3.org/2000/svg">
-						<path d="M6 5c245 69 284 260 428 259 137-1 243-95 128-140-119-46-81 158 0 204 65 38 73 36 168 69" stroke="#55ff00" stroke-linecap="round" in:blur={animationParams.line}/>
-					</svg>
-				{/if}
+			{:else if animate.trigger}
+				<h1 style="justify-content: left;" in:fly={animationParams.title(0)}>M</h1>
+				<h1 style="justify-content: center; z-index: 1;" in:fly={animationParams.title(1)}>J</h1>
+				<h1 style="justify-content: right;" in:fly={animationParams.title(2)}>M</h1>
+				<svg class="line" fill="none" viewBox="0 0 735 403" xmlns="http://www.w3.org/2000/svg">
+					<path
+						d="M6 5c245 69 284 260 428 259 137-1 243-95 128-140-119-46-81 158 0 204 65 38 73 36 168 69"
+						stroke="#55ff00"
+						stroke-linecap="round"
+						in:blur={animationParams.line}
+					/>
+				</svg>
 			{/if}
 		</div>
 		<div class="subtext">
@@ -201,47 +213,45 @@
 
 {#key sections.resume}
 	<div id="resume" class:hidden={!sections.resume}>
-			<div class="title" in:blur={animationParams.section(0)}>
-				<Header text="Resume" icon="clipboard" direction="right" />
-			</div>
-			<div class="lists">
-				<ul in:blur={animationParams.section(1)}>
-					<li class="header">Foundations</li>
-					<li>TypeScript</li>
-					<li>HTML + CSS</li>
-					<li>SvelteKit</li>
-					<li>Go</li>
-					<li>Python</li>
-					<li>Pandas + Matplotlib</li>
-					<li>Bash</li>
-					<li>Canvas</li>
-				</ul>
-				<ul in:blur={animationParams.section(2)}>
-					<li class="header">Toolkit</li>
-					<li>Website Design</li>
-					<li>Illustrator</li>
-					<li>Photoshop</li>
-					<li>Figma</li>
-					<li>Data Analysis + Visualization</li>
-					<li>DevOps</li>
-					<li>QA + Testing</li>
-				</ul>
-				<ul in:blur={animationParams.section(3)}>
-					<li class="header">Ethos</li>
-					<li>Accuracy</li>
-					<li>Structure</li>
-					<li>Transparency</li>
-					<li>Reliability</li>
-					<li>Integrity</li>
-					<li>Inquiry</li>
-					<li>Diligence</li>
-				</ul>
-			</div>
-			<div class="download" in:blur={animationParams.section(4)}>
-				<a href="/Matthew_J_Moran_Resume.pdf" download>
-					Download Resume
-				</a>
-			</div>
+		<div class="title" in:blur={animationParams.section(0)}>
+			<Header text="Resume" icon="clipboard" direction="right" />
+		</div>
+		<div class="lists">
+			<ul in:blur={animationParams.section(1)}>
+				<li class="header">Foundations</li>
+				<li>TypeScript</li>
+				<li>HTML + CSS</li>
+				<li>SvelteKit</li>
+				<li>Go</li>
+				<li>Python</li>
+				<li>Pandas + Matplotlib</li>
+				<li>Bash</li>
+				<li>Canvas</li>
+			</ul>
+			<ul in:blur={animationParams.section(2)}>
+				<li class="header">Toolkit</li>
+				<li>Website Design</li>
+				<li>Illustrator</li>
+				<li>Photoshop</li>
+				<li>Figma</li>
+				<li>Data Analysis + Visualization</li>
+				<li>DevOps</li>
+				<li>QA + Testing</li>
+			</ul>
+			<ul in:blur={animationParams.section(3)}>
+				<li class="header">Ethos</li>
+				<li>Accuracy</li>
+				<li>Structure</li>
+				<li>Transparency</li>
+				<li>Reliability</li>
+				<li>Integrity</li>
+				<li>Inquiry</li>
+				<li>Diligence</li>
+			</ul>
+		</div>
+		<div class="download" in:blur={animationParams.section(4)}>
+			<a href="/Matthew_J_Moran_Resume.pdf" download> Download Resume </a>
+		</div>
 	</div>
 {/key}
 
@@ -297,7 +307,13 @@
 				</li>
 			</ul>
 			<p in:blur={animationParams.section(1)}>
-				Matthew Moran is a Software Engineer with a strong background in software development, data visualization, automation testing, and leading projects across various industries. He holds a Bachelor of Science in Computer Science and Art from the University of Wisconsin–Madison. With experience in both contract and full-time roles, Matthew focuses on building innovative solutions and refining digital tools to enhance efficiency and performance. Beyond development, he also applies his design expertise to create intuitive and visually compelling user experiences.
+				Matthew Moran is a Software Engineer with a strong background in software development, data
+				visualization, automation testing, and leading projects across various industries. He holds
+				a Bachelor of Science in Computer Science and Art from the University of Wisconsin–Madison.
+				With experience in both contract and full-time roles, Matthew focuses on building innovative
+				solutions and refining digital tools to enhance efficiency and performance. Beyond
+				development, he also applies his design expertise to create intuitive and visually
+				compelling user experiences.
 			</p>
 		</div>
 	</div>
@@ -327,7 +343,7 @@
 	}
 
 	#intro {
-		position: relative;	
+		position: relative;
 		margin: var(--border-margin) var(--border-margin) 0 var(--border-margin);
 		min-height: calc(100vh - var(--border-margin) * 2 + var(--transition-height));
 		border-image: url('$lib/assets/grid-background.svg') 80 fill / 80px round;
@@ -375,10 +391,13 @@
 			transition: transform ease var(--transition-speed);
 			& a {
 				color: black;
-				background: linear-gradient(to bottom, var(--light-green) 0%, var(--light-green) 100%) repeat-x 0 100% / 4px 4px;
+				background: linear-gradient(to bottom, var(--light-green) 0%, var(--light-green) 100%)
+					repeat-x 0 100% / 4px 4px;
 				text-decoration: none;
-				transition: background-size ease var(--transition-speed), color ease var(--transition-speed);
-					&:hover {
+				transition:
+					background-size ease var(--transition-speed),
+					color ease var(--transition-speed);
+				&:hover {
 					color: black;
 					background-size: 4px 100%;
 				}
@@ -430,20 +449,20 @@
 
 	@keyframes line-movement {
 		from {
-				stroke-dashoffset: 120;
+			stroke-dashoffset: 120;
 		}
 		to {
-				stroke-dashoffset: 0;
+			stroke-dashoffset: 0;
 		}
 	}
 
 	#intro .line {
-    left: 50%;
+		left: 50%;
 		width: 110vw;
 		position: absolute;
-    transform: translateX(-50%);
+		transform: translateX(-50%);
 		will-change: transform;
-    & path {
+		& path {
 			stroke-width: 5;
 			stroke-dasharray: 15;
 			animation: line-movement 4s linear infinite;
@@ -457,7 +476,7 @@
 				stroke-dasharray: 60;
 				animation: line-movement 2s linear infinite;
 			}
-    }
+		}
 	}
 
 	#intro .subtext {
@@ -571,7 +590,9 @@
 			text-transform: uppercase;
 			color: white;
 			background: linear-gradient(to bottom, white 0%, white 100%) repeat-x 0 100% / 0px 0px;
-			transition: background-size ease var(--transition-speed), color ease var(--transition-speed);
+			transition:
+				background-size ease var(--transition-speed),
+				color ease var(--transition-speed);
 			&:hover {
 				color: black;
 				background-size: 100% 100%;
@@ -614,14 +635,16 @@
 			text-decoration: none;
 		}
 		& ul {
-			@extend %no-space, %flex-row;	
+			@extend %no-space, %flex-row;
 			justify-content: space-between;
 			list-style-type: none;
 			color: white;
 			padding: 5px 0;
 			font: 1.5rem 'AUTHENTIC Sans';
 			background: linear-gradient(to bottom, white 0%, white 100%) repeat-y 0 100% / 0px 0px;
-			transition: background-size ease var(--transition-speed), color ease var(--transition-speed);
+			transition:
+				background-size ease var(--transition-speed),
+				color ease var(--transition-speed);
 			&:hover {
 				color: black;
 				background-size: 100% 100%;
@@ -687,7 +710,9 @@
 				& a {
 					color: white;
 					background: linear-gradient(to bottom, white 0%, white 100%) repeat-x 0 100% / 0px 0px;
-					transition: background-size ease var(--transition-speed), color ease var(--transition-speed);
+					transition:
+						background-size ease var(--transition-speed),
+						color ease var(--transition-speed);
 					&:hover {
 						color: black;
 						background-size: 100% 100%;
@@ -727,6 +752,6 @@
 			@media (--phone) {
 				font-size: 0.8rem;
 			}
-		}		
+		}
 	}
 </style>

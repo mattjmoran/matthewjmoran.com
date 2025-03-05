@@ -7,8 +7,8 @@
 
 	const loadingIcons = ['computer', 'compass', 'lightbulb'];
 
-	let transitionDuration = animate.delay * (0.1);
-	let transitionDelay = animate.delay * (0.9);
+	let transitionDuration = animate.delay * 0.1;
+	let transitionDelay = animate.delay * 0.9;
 </script>
 
 {#if loading}
