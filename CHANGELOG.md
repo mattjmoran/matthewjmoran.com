@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/mattjmoran/matthewjmoran.com/compare/v1.1.0...v1.1.1) (2025-03-19)
+
+
+### Bug Fixes
+
+* enhance error page layout and add fallback for routing errors ([92dfd83](https://github.com/mattjmoran/matthewjmoran.com/commit/92dfd837eb16a8c4da97c86f9b1faf56f4fc8e6a))
+
 ## [1.1.0](https://github.com/mattjmoran/matthewjmoran.com/compare/v1.0.1...v1.1.0) (2025-03-05)
 
 
