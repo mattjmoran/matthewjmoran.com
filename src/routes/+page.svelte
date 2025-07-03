@@ -202,8 +202,8 @@
 		bind:clientHeight={svgContainer.height}
 	>
 		<svg viewBox="0 0 {svgGrid.width} {svgGrid.height}">
-			{#each svgCells.x as x}
-				{#each svgCells.y as y}
+			{#each svgCells.x as x (x)}
+				{#each svgCells.y as y (y)}
 					{#if hash((y + 1) * (x + 1), randomSeed) < (y + 1) / (svgGrid.height + 1)}
 						<rect {x} {y} width="1" height="1" shape-rendering="crispEdges" />
 					{/if}

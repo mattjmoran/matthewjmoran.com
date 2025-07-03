@@ -24,7 +24,7 @@
 
 {#if loading}
 	<div class="loading" transition:fade={loadingParams}>
-		{#each loadingIcons as icon, index}
+		{#each loadingIcons as icon, index (icon)}
 			<div class="icon" style="animation-delay: {200 * index}ms">
 				<Icon name={icon} size="100px" fill="#fff" />
 			</div>
